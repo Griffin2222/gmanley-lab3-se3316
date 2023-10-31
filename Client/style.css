@@ -1,0 +1,50 @@
+body {
+    background-color: teal;
+}
+
+.title {
+    text-align: center;
+    font-size: 200%;
+}
+
+.search {
+    text-align: center;
+}
+
+.results {
+    text-align: center;
+}
+button {
+    border-radius: 10px;
+    border: 2px solid crimson;
+    background-color: aquamarine;
+    transition-duration: 0.4s;
+}
+button:hover {
+    background-color: wheat;
+}
+ul {
+    display: grid;
+    list-style-type: none;
+}
+li {
+    border: 1px solid black;
+    border-radius: 30px;
+    padding: 10px;
+    margin: 5px;
+}
+#searchResult li {
+    background-color: rgb(66, 179, 240);
+}
+ul#searchResult {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Define 3 columns with equal width */
+    grid-gap: 10px; /* Add some space between grid items */
+    list-style: none; /* Remove the default list styles */
+    padding: 0; /* Remove default padding/margin */
+}
+ul.grid li {
+    background-color: lightgray;
+    padding: 10px;
+    text-align: center;
+}
