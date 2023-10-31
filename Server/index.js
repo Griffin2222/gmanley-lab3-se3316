@@ -7,7 +7,7 @@ const routerPower = express.Router();
 const port = 3000;
 const superInfo = 'server/superhero_info.json';
 const superPowers = 'server/superhero_powers.json';
-const lists = 'server/lists.json';
+const lists = 'server/list.json';
 let superInfoJSON;
 let superPowersJSON;
 
@@ -37,8 +37,7 @@ app.use((req, res, next) => {
     next();
 });
 
-routerInfo.route('/filter')
-    .get((req, res) => {
+routerInfo.route('/filter').get((req, res) => {
         const { name, race, publisher, limit } = req.query;
         if(!name && !race && !publisher) return res.status(400).json('There must be at least one keyword...');
         let filteredData = superInfoJSON.filter(item =>
