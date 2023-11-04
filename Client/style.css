@@ -48,3 +48,35 @@ ul.grid li {
     padding: 10px;
     text-align: center;
 }
+/* Style the dropdown container */
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    font-size: 16px;
+}
+
+/* Style the dropdown options */
+option {
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Style the dropdown when it's open */
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+/* Style dropdown options on hover */
+option:hover {
+    background-color: #81cbf4;
+    color: #fff;
+}
+  
+p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+  
