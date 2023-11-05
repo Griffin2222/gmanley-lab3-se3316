@@ -28,6 +28,7 @@ sortListDrop.addEventListener('change', () => {
 });
 listDrop.addEventListener('change', e => {
     selectListBtn.disabled = listDrop.selectedIndex === 0
+    deleteListBtn.disabled = listDrop.selectedIndex === 0
     listName.value = e.target.value
 });
 searchLimit.addEventListener('input', e => {
@@ -39,6 +40,7 @@ searchLimit.addEventListener('input', e => {
 
 populateDropdown();
 selectListBtn.disabled = true;
+deleteListBtn.disabled = true;
 sortListBtn.disabled = true;
 
 function sortList() {
@@ -51,33 +53,34 @@ function sortList() {
         if (sortType === 'name') {
             textA = a.querySelector('h1.name').textContent.trim().toLowerCase();
             textB = b.querySelector('h1.name').textContent.trim().toLowerCase();
+        } else if (sortType === 'power') {
+            textA = (a.querySelector('p.power') ? a.querySelector('p.power').textContent : '').length;
+            textB = (b.querySelector('p.power') ? b.querySelector('p.power').textContent : '').length;
+            return textB - textA;
         } else {
             textA = a.querySelector(`p[class="${sortType}"]`).textContent.trim().toLowerCase();
             textB = b.querySelector(`p[class="${sortType}"]`).textContent.trim().toLowerCase();
         }
-
-
         return textA.localeCompare(textB);
     });
-
     searchResult.innerHTML = '';
     listItems.forEach(item => searchResult.appendChild(item));
 }
 
 function saveList() {
-    const idList = [];
+    const idsList = [];
     for(hero of searchResult.getElementsByTagName('li')) {
-        idList.push(hero.className);
+        idsList.push(hero.className);
     }
-    const newList = { 
-        lName: listName.value, 
-        id: idList
+    const listItem = { 
+        listName: listName.value, 
+        ids: idsList
     }
 
     fetch(`/api/superheroes/lists/${listDrop.selectedIndex}`, {
         method: 'PUT',
         headers: {'Content-type': 'application/json'},
-        body: JSON.stringify(newList)
+        body: JSON.stringify(listItem)
     })
     .then(res => {
         if(res.status === 400) throw new Error('List name cannot be blank...');
@@ -91,24 +94,23 @@ function saveList() {
 }
 
 function createList() {
-    const idList = [];
+    const idsList = [];
     for(hero of searchResult.getElementsByTagName('li')) {
-        idList.push(hero.className);
+        idsList.push(hero.className);
     }
-    const newList = { 
-        lName: listName.value, 
-        id: idList
+    const listItem = { 
+        listName: listName.value, 
+        ids: idsList
     }   
 
     fetch('/api/superheroes/lists', {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
-        body: JSON.stringify(newList)
+        body: JSON.stringify(listItem)
     })
     .then(res => {
         if(res.status === 400) throw new Error('List name cannot be blank...')
         if(res.status === 409) throw new Error('List name taken...');
-        res.json()
     })
     .then(data => {
         populateDropdown();
@@ -119,16 +121,19 @@ function createList() {
 function deleteList() {
     fetch(`/api/superheroes/lists/${listDrop.selectedIndex}`, {
         method: 'DELETE',
-        headers: {'Content-type': 'application/json'}
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({listName: listName.value})
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 404) throw new Error('List not found...')
+    })
     .then(data => {
         listName.value = '';
         listDrop.remove(listDrop.selectedIndex);
         listDrop.options[0].selected = true;
         sortListDrop[0].selected = true;
     })
-
+    .catch(err => console.log(err.message));
 }
 
 function populateDropdown() {
@@ -136,15 +141,16 @@ function populateDropdown() {
     .then(res => res.json())
     .then(data => {
         data.forEach(list => {
-            if(!optionExists(listDrop, list.lName) || listDrop.options.length === 1) {
+            if(!optionExists(listDrop, list.listName) || listDrop.options.length === 1) {
                 let option = document.createElement("option");
-                option.text = list.lName;
-                option.value = list.lName;
+                option.text = list.listName;
+                option.value = list.listName;
                 listDrop.appendChild(option);   
             }
         });
         clearResults();
         listName.value = '';
+        listDrop.options[0].selected = true;
         newListBtn.disabled = true;
         saveListBtn.disabled = true;
         sortListDrop.disabled = true;
@@ -172,17 +178,18 @@ function getHero(id) {
     .then(data => {
         const heroLI = document.createElement('li');
         for(e in data) {
-            if(e === 'id') continue;
+            if(e === 'id') heroLI.className = data[e];
             if(e === 'name') {
                 const nameH1 = document.createElement('h1');
                 nameH1.textContent = capitalize(data[e]);
+                nameH1.className = 'name';
                 heroLI.appendChild(nameH1);
-            } else if(e === 'Race') {
+            } else if(e === 'race') {
                 const raceP = document.createElement('p');
                 raceP.textContent = capitalize(`Race: ${data[e]}`);
                 raceP.className = 'race';
                 heroLI.appendChild(raceP);
-            } else if(e === 'Publisher') {
+            } else if(e === 'publisher') {
                 const publisherP = document.createElement('p');
                 publisherP.textContent = capitalize(`Publisher: ${data[e]}`);
                 publisherP.className = 'publisher';
@@ -220,12 +227,12 @@ function getHeroes() {
                     nameH1.textContent = capitalize(hero[e]);
                     nameH1.className = 'name';
                     heroLI.appendChild(nameH1);
-                } else if(e === 'Race') {
+                } else if(e === 'race') {
                     const raceP = document.createElement('p');
                     raceP.textContent = capitalize(`Race: ${hero[e]}`);
                     raceP.className = 'race';
                     heroLI.appendChild(raceP);
-                } else if(e === 'Publisher') {
+                } else if(e === 'publisher') {
                     const publisherP = document.createElement('p');
                     publisherP.textContent = capitalize(`Publisher: ${hero[e]}`);
                     publisherP.className = 'publisher';
@@ -248,7 +255,7 @@ function getHeroes() {
 }
 
 function getPower(heroName, li) {
-    fetch(`/api/powers/${heroName}`)
+    fetch(`/api/superheroes/powers/${heroName}`)
     .then(res => {
         if(!res.ok) { throw new Error(`${heroName} has no powers...`)}
         return res.json();
@@ -256,13 +263,16 @@ function getPower(heroName, li) {
     .then(data => {
         const powersH2 = document.createElement('h2');
         powersH2.textContent = 'Powers';
+        const powersP = document.createElement('p');
+        powersP.className = 'power';
         li.appendChild(powersH2);
         for(const element in data) {
             if(element === 'hero_names') continue;
             if(data[element] === 'True') {
-                li.appendChild(document.createTextNode(`${capitalize(element)}, `));
+                powersP.appendChild(document.createTextNode(`${capitalize(element)}, `));
             }
         }
+        li.appendChild(powersP);
     })
     .catch(err => {
         console.log(err.message);
@@ -281,6 +291,14 @@ function getPublishers() {
         for(const p in data) {
             publishersLI.appendChild(document.createTextNode(`${data[p]}, `));
         }
+        selectListBtn.disabled = true;
+        deleteListBtn.disabled = true;
+        sortListBtn.disabled = true;
+        newListBtn.disabled = true;
+        saveListBtn.disabled = true;
+        listDrop.options[0].selected = true;
+        sortListDrop[0].selected = true;
+        sortListDrop.disabled = true;
         searchResult.appendChild(publishersLI);
     })
 }
@@ -296,7 +314,7 @@ function optionExists(dropdown, value) {
 
 function capitalize(phrase) {
     phrase = String(phrase).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    return phrase;
+    return phrase.replace(/([a-z])([A-Z])/g, '$1 $2');
 }
 function clearResults() {
     while(searchResult.firstChild) {
