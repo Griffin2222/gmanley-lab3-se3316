@@ -2,13 +2,18 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const mongoose = require('mongoose')
 const app = express();
+const dbURI = 'mongodb+srv://griffin:Griffin22@cluster0.3bjuofm.mongodb.net/Superheroes?retryWrites=true&w=majority';
+const Heros = require('./Models/heros');
+const Powers = require('./Models/powers');
+const ListItems = require('./Models/listItems');
 const routerInfo = express.Router();
 const routerPower = express.Router();
 const port = 3000;
-const superInfo = 'server/superhero_info.json';
-const superPowers = 'server/superhero_powers.json';
-const lists = 'server/lists.json';
+const superInfo = 'Server/superhero_info.json';
+const superPowers = 'Server/superhero_powers.json';
+const lists = 'Server/lists.json';
 let superInfoJSON;
 let superPowersJSON;
 let listsJSON
@@ -27,13 +32,13 @@ fs.readFile(superPowers, 'utf-8', (err, data) => {
     }
     superPowersJSON = JSON.parse(data);
 });
-fs.readFile(lists, 'utf8', (err, data) => {
-    if(err) {
-        console.log(err);
-        return;
-    }
-    listsJSON = JSON.parse(data);
-});
+// fs.readFile(lists, 'utf8', (err, data) => {
+//     if(err) {
+//         console.log(err);
+//         return;
+//     }
+//     listsJSON = JSON.parse(data);
+// });
 
 app.use(express.json());
 
@@ -82,6 +87,8 @@ routerInfo.route('/publishers')
         for(const p of superInfoJSON) {
             if(!publishers.includes(p.Publisher) && p.Publisher !== '') publishers.push(p.Publisher);
         }
+       
+         
         res.send(publishers);
     });
 
@@ -161,4 +168,6 @@ function capitalize(phrase) {
 app.use('/api/superheroes', routerInfo);
 app.use('/api/powers', routerPower);
 
-app.listen(port, () => console.log(`listening on port ${port}...`));
+mongoose.connect(dbURI)
+    .then(() => app.listen(port, () => console.log(`listening on port ${port}...`)))
+    .catch((err) => console.log(err));
