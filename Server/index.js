@@ -30,14 +30,14 @@ routerInfo.route('/lists')
             });
     })
     .post((req, res) => {
-        if(!req.body.lName || req.body.lName.length > 20 || containsHTML(req.body.lName)) return res.status(400).send('Bad list name...');
-        Lists.find({lName: req.body.lName})
+        if(!req.body.listName || req.body.listName.length > 20 || containsHTML(req.body.listName)) return res.status(400).send('Bad list name...');
+        ListItems.find({listName: req.body.lName})
         .then(result => {
             if(result[0]) return res.status(409).send('List name unavailable...');
             else {
-                const superList = new Lists({
-                    lName: req.body.lName,
-                    id: req.body.id
+                const superList = new ListItems({
+                    listName: req.body.listName,
+                    ids: req.body.ids
                 })
                 superList.save()
                 .then((result) => res.send(result))
@@ -62,7 +62,7 @@ routerInfo.route('/lists/:id')
     })
     .put((req, res) => {
         if(!req.body.listName) return res.status(400).send('List name blank...');
-        ListItems.find({listName: req.body.lName}).updateOne({ids: req.body.id})
+        ListItems.find({listName: req.body.listName}).updateOne({ids: req.body.ids})
         .then((result) => {
             if(result.modifiedCount === 0) return res.status(404).send('List not found...');
             res.send(result);
@@ -130,7 +130,7 @@ routerInfo.route('/filter')
         .catch((err) => console.log(err));
     });
 
-routerPower.route('/powers/:name')
+routerInfo.route('/powers/:name')
     .get((req, res) => {
         const name = req.params.name;
         Powers.find({hero_names: `${req.params.name}`}).select('-_id -createdAt -updatedAt -__v')

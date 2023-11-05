@@ -6,7 +6,7 @@ const listItemsSchema = new Schema({
         type: String,
         required: true
     },
-    id: {
+    ids: {
         type: Array,
         required: true
     }

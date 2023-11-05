@@ -162,7 +162,7 @@ function getList() {
     fetch(`/api/superheroes/lists/${listDrop.selectedIndex}`)
     .then(res => res.json())
     .then(data => {
-        for(id of data.id) {
+        for(id of data.ids) {
             getHero(id);
         }
         newListBtn.disabled = false;
