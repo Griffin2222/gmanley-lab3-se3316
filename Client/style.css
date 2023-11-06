@@ -1,28 +1,6 @@
-body {
-    background-color: teal;
-}
 
-.title {
-    text-align: center;
-    font-size: 200%;
-}
 
-.search {
-    text-align: center;
-}
 
-.results {
-    text-align: center;
-}
-button {
-    border-radius: 10px;
-    border: 2px solid crimson;
-    background-color: aquamarine;
-    transition-duration: 0.4s;
-}
-button:hover {
-    background-color: wheat;
-}
 ul {
     display: grid;
     list-style-type: none;
@@ -34,8 +12,15 @@ li {
     margin: 5px;
 }
 #searchResult li {
-    background-color: rgb(66, 179, 240);
+    background: linear-gradient(135deg, #4b80b8, #295a94);
+    color: #fff;
+    border: 1px solid #2c4667;
+    border-radius: 30px;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
 }
+
 ul#searchResult {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Define 3 columns with equal width */
@@ -49,34 +34,157 @@ ul.grid li {
     text-align: center;
 }
 /* Style the dropdown container */
-select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 200px;
-    font-size: 16px;
-}
 
-/* Style the dropdown options */
-option {
-    background-color: #fff;
-    color: #333;
-    font-size: 16px;
-}
-
-/* Style the dropdown when it's open */
-select:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-}
 /* Style dropdown options on hover */
-option:hover {
-    background-color: #81cbf4;
-    color: #fff;
-}
+
   
 p {
     margin-block-start: 0em;
     margin-block-end: 0em;
 }
+
+
+
+.search input, .search button {
+    margin-right: 10px;
+}
+
+body {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #00f, #0066cc);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    font-size: 200%;
+    margin-top: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* Adjust the width for the content block */
+    max-width: 1000px; /* Limit the max width */
+    margin-top: 20px; /* Add top margin for spacing */
+}
+
+.search {
+    text-align: center;
+    width: 100%; /* Make the container take the full width */
+    max-width: 300px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-input, .search-buttons {
+    width: 100%; /* Set all elements to take the full width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search input, .search button {
+    margin: 5px 0;
+}
+
+
+
+.list {
+    text-align: center;
+    width: 100%; /* Make the container take the full width */
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-top, .list-center, .list-bottom {
+    width: 100%; /* Set all elements to take the full width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.list-top button, .list-center button, .list-bottom button {
+    margin: 5px 0;
+}
+
+
+
+.results {
+    text-align: center;
+    margin: 20px auto;
+    width: 100%; /* Adjust the width to take the full width of the content block */
+}
+
+/* Apply the styles to all inputs and buttons */
+input, button {
+    background-color: #222;
+    border: 2px solid #00f;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: #00f;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #0066cc;
+}
+
+/* Apply the styles to select elements */
+select {
+    background-color: #222;
+    border: 2px solid #00f;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+option {
+    background-color: #222;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Apply the theme to the select when it's focused */
+select:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+
+
+
   
