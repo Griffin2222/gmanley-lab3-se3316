@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-create-account-btn',
@@ -9,9 +10,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './create-account-btn.component.css'
 })
 export class CreateAccountBtnComponent {
-
+  constructor (private router: Router){}
 
   onClick() {
-    console.log("create acct");
+    this.router.navigate(['/createNewAccount']);
   }
 }
