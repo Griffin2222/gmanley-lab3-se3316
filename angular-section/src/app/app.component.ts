@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './login/Main/header.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +12,6 @@ import { HeaderComponent } from './login/Main/header.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+
   
 }

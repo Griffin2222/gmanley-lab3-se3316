@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loginbtn',
@@ -10,9 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginbtnComponent{
 
-
+  constructor(private router: Router){}
 
   onClick() {
-    console.log('login');
+    this.router.navigate(['/heros']);
   }
 }
