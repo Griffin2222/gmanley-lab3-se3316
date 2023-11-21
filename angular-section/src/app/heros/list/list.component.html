@@ -7,9 +7,9 @@
         <button id="deleteListBtn">Delete</button>
     </div>
     <div class="list-center">
-        <input id="listName" type="text" maxlength="20" placeholder="Enter List Name..." value="">
-        <button id="newListBtn">New List</button>
-        <button id="saveListBtn">Save List</button>
+        <input #listName type="text" maxlength="20" placeholder="Enter List Name..." value="">
+        <button id="newListBtn" (click) ="newList(listName.value)">New List</button>
+        <button id="saveListBtn" (click) ="saveList(listName.value)">Save List</button>
     </div>
     <div class="list-bottom">
         <select id="sortList">

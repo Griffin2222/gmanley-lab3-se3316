@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Hero } from '../../hero';
+
 
 @Component({
   selector: 'app-results',
@@ -8,6 +10,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './results.component.html',
   styleUrl: './results.component.css'
 })
-export class ResultsComponent {
+export class ResultsComponent  {
+  @Input() hero!: Hero;
+
 
 }
