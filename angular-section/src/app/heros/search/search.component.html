@@ -1,13 +1,13 @@
 <div class="search">
     <div class="search-input">
-        <input id="searchName" type="text" maxlength="20" placeholder="Enter Name...">
-        <input id="searchRace" type="text" maxlength="20" placeholder="Enter Race...">
-        <input id="searchPublisher" type="text" maxlength="20" placeholder="Enter Publisher...">
-        <input id="searchPower" type="text" maxlength="20" placeholder="Enter Power...">
-        <input id="searchLimit" type="number" min="1" placeholder="Enter Search Limit...">
+        <input #searchNameInput type="text" maxlength="20" placeholder="Enter Name...">
+        <input #searchRaceInput type="text" maxlength="20" placeholder="Enter Race...">
+        <input #searchPublisherInput type="text" maxlength="20" placeholder="Enter Publisher...">
+        <input #searchPowerInput type="text" maxlength="20" placeholder="Enter Power...">
+        <input #searchLimitInput type="number" min="1" placeholder="Enter Search Limit...">
     </div>
     <div class="search-buttons">
-        <button id="searchBtn">Search</button>
-        <button id="publishersBtn">Get All Publishers</button>
+        <button id="searchBtn" (click)="getHeroes(searchNameInput.value, searchRaceInput.value, searchPublisherInput.value, searchPowerInput.value, searchLimitInput.value)">Search</button>
+        <button id="publishersBtn" (click)="getAllPublishers()">Get All Publishers</button>
     </div>
 </div>
