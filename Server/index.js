@@ -1,5 +1,6 @@
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose')
 const app = express();
@@ -18,6 +19,9 @@ app.use(express.json());
 app.use('/', express.static(path.join(__dirname, '..', 'Client')));
 
 app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     console.log(`${req.method} request for ${req.url}`);
     next();
 });
@@ -154,7 +158,7 @@ routerInfo.route('/:id')
 
 routerInfo.route('/')
     .get((req, res) => {
-        ListItems.find({})
+        Heros.find({})
         .then((heroes) => {
             if(!heroes[0]) return res.status(404).send('no matches...');
             res.send(heroes);
@@ -168,7 +172,6 @@ routerInfo.route('/')
     }
 
 app.use('/api/superheroes', routerInfo);
-
 
 mongoose.connect(dbURI)
     .then(() => app.listen(port, () => console.log(`listening on port ${port}...`)))

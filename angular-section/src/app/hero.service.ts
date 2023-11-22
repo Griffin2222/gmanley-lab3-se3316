@@ -8,44 +8,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HeroService {
-  protected heroList: Hero[] = [
-    {
-      id: 8,
-      name: "Agent 13",
-      gender: "Female",
-      eyeColor: "blue",
-      race: "-",
-      hairColor: "Blond",
-      height: 173,
-      publisher: "Marvel Comics",
-      skinColor: "-",
-      alignment: "good",
-      weight: 61
-    },
-    {
-      id: 4,
-      name: "Abraxas",
-      gender: "Male",
-      eyeColor: "blue",
-      race: "Cosmic Entity",
-      hairColor: "Black",
-      height: -99,
-      publisher: "Marvel Comics",
-      skinColor: "-",
-      alignment: "bad",
-      weight: -99
-    }
-  ]
-  constructor(private http: HttpClient) { }
+ 
+  
 
-  private getAllURL = '/api/superheroes/';
+  private getAllURL = 'http://localhost:3000/api/superheroes/';
 
-  getAllHeroInfo(): Observable<Hero[]> {
-    return this.http.get<Hero[]>('${this.getAllURL}/heroes');
+  async getAllHeroInfo(): Promise<Hero[]> {
+    const data = await fetch(this.getAllURL);
+    return (await data.json()) ?? [];
   }
 
-  getHeroById(id: number): Observable<Hero[] | undefined> {
-    return this.http.get<Hero[]>(`${this.getAllURL}/heroes/${id}`);
+  async getHeroById(id: number): Promise<Hero[] | undefined> {
+    const data = await fetch(`${this.getAllURL}/${id}`);
+    return (await data.json()) ?? [];
   }
 
 

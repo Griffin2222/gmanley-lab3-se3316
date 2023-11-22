@@ -6,6 +6,7 @@ import { ListComponent } from '../list/list.component';
 import { ResultsComponent } from '../results/results.component';
 import { Hero } from '../../hero';
 import { HeroService } from '../../hero.service';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -16,20 +17,16 @@ import { HeroService } from '../../hero.service';
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
-export class MainComponent implements OnInit {
+export class MainComponent{
   heroList: Hero[] = [];
+  heroService: HeroService = inject(HeroService);
 
-  constructor(private heroService: HeroService) { }
+  constructor() { 
 
-  ngOnInit(): void {
-    this.heroService.getAllHeroInfo().subscribe(
-      (heroes: Hero[]) => {
-        this.heroList = heroes;
-      },
-      error => {
-        console.error('Error loading heroes:', error);
-        // Handle errors as needed
-      }
+    this.heroService.getAllHeroInfo().then((heroList: Hero[])=>{
+      this.heroList = heroList;
+
+    }
     );
   }
 }
