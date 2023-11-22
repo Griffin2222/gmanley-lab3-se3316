@@ -11,12 +11,21 @@ export class HeroService {
  
   
 
-  private getAllURL = 'http://localhost:3000/api/superheroes/';
+  private getAllURL = 'http://localhost:3000/api/superheroes';
 
-  async getAllHeroInfo(): Promise<Hero[]> {
-    const data = await fetch(this.getAllURL);
+  //${searchName.value}&race=${searchRace.value}&publisher=${searchPublisher.value}&power=${searchPower.value}&limit=${searchLimit.value}
+
+  async getHeroInfo(name:string, race:string, publisher:string, power:string, limit:number): Promise<Hero[]> {
+    const queryParams = `/filter?name=${encodeURIComponent(name)}&race=${encodeURIComponent(race)}&publisher=${encodeURIComponent(publisher)}&power=${encodeURIComponent(power)}&limit=${encodeURIComponent(limit)}`;
+
+  // Concatenate the parameters to the base URL
+   const urlWithParams = this.getAllURL + queryParams;
+
+  // Make the API request
+    const data = await fetch(urlWithParams);
     return (await data.json()) ?? [];
   }
+
 
   async getHeroById(id: number): Promise<Hero[] | undefined> {
     const data = await fetch(`${this.getAllURL}/${id}`);
