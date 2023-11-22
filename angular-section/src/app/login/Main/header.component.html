@@ -2,16 +2,16 @@
     <h2>Login</h2>
     <div class="form-group">
         <label for="username">Username:</label>
-        <app-username></app-username>
+        <input #username type="text" id="username" name="username" required>
     </div>
     <div class="form-group">
         <label for="password">Password:</label>
-        <app-password></app-password>
+        <input #password type="password" id="password" name="password" required>
     </div>
     <div class="form-group">
-        <app-loginbtn></app-loginbtn>
+        <button (click)="login(username.value, password.value)">Login Please</button>
     </div>
     <div class="form-group">
-        <app-create-account-btn></app-create-account-btn>
+        <button (click)="createAccountBtn()">Create New Account</button>
     </div>
 </div>

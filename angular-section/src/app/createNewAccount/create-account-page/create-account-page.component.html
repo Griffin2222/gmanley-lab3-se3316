@@ -1,1 +1,7 @@
-<p>create-account-page works!</p>
+<p>Enter Username:</p>
+<input #userName required>
+<p>Enter Password</p>
+<input #pword required>
+<p>Confirm Password</p>
+<input #confirmPWord required>
+<Button (click) = "createAccount(userName.value, pword.value, confirmPWord.value)">Create Account</Button>

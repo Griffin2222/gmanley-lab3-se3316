@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TitleComponent } from './heros/title/title.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -15,6 +16,7 @@ TitleComponent
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule
   
   ],
   bootstrap: [AppComponent]

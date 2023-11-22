@@ -1,17 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginbtnComponent } from '../loginbtn/loginbtn.component';
-import { CreateAccountBtnComponent } from '../create-account-btn/create-account-btn.component';
-import { UsernameComponent } from '../username/username.component';
-import { PasswordComponent } from '../password/password.component';
+
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-screen',
   standalone: true,
-  imports: [CommonModule,LoginbtnComponent, CreateAccountBtnComponent, UsernameComponent, PasswordComponent],
+  imports: [CommonModule,],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  title: string = 'Login Component'
+  @ViewChild('username') usernameInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('password') passwordInput!: ElementRef<HTMLInputElement>;
+  
+
+  constructor(private router: Router){}
+
+
+  createAccountBtn() {
+    this.router.navigate(['/createNewAccount']);
+  }
+
+  login(username: string, password: string){
+    this.router.navigate(['/heros'])
+    console.log('password', password);
+    console.log('username', username);
+  }
 }

@@ -152,6 +152,16 @@ routerInfo.route('/:id')
         .catch((err) => console.log(err));
     });
 
+routerInfo.route('/')
+    .get((req, res) => {
+        ListItems.find({})
+        .then((heroes) => {
+            if(!heroes[0]) return res.status(404).send('no matches...');
+            res.send(heroes);
+        })
+        .catch(err => console.log(err));
+    });
+
     function capitalize(phrase) {
         phrase = String(phrase).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         return phrase;
