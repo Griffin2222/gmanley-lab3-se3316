@@ -1,15 +1,16 @@
 <div class="list">
     <div class="list-top">
-        <select id="listDrop">
-            <option disabled selected>Select A List</option>
+        <!-- Add the dropdown component in your template -->
+        <select id = "dropdown" #listDropdown>
+            <option *ngFor="let list of lists" [value]="list.listName">{{ list.listName }}</option>
         </select>
-        <button id="selectListBtn">Select</button>
+        <button id="selectListBtn" (click) = "selectList(listDropdown.selectedIndex)">Select</button>
         <button id="deleteListBtn">Delete</button>
     </div>
     <div class="list-center">
         <input #listName type="text" maxlength="20" placeholder="Enter List Name..." value="">
-        <button id="newListBtn" (click) ="newList(listName.value)">New List</button>
-        <button id="saveListBtn" (click) ="saveList(listName.value)">Save List</button>
+        <button id="newListBtn" (click) ="createList(listName.value)">New List</button>
+        <button id="saveListBtn" >Save List</button>
     </div>
     <div class="list-bottom">
         <select id="sortList">

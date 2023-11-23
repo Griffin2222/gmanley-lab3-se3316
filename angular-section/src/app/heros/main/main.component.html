@@ -12,7 +12,7 @@
         <button id="publishersBtn">Get All Publishers</button>
     </div>
 </div>
-<app-list></app-list>
+<app-list [heroList]="heroList"></app-list>
 <app-results
 *ngFor="let hero of heroList"
 [hero] = "hero"
