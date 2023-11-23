@@ -27,8 +27,10 @@ export class HeroService {
   }
 
 
-  async getHeroById(id: number): Promise<Hero[] | undefined> {
-    const data = await fetch(`${this.getAllURL}/${id}`);
+  async getHeroById(id: number): Promise<Hero | undefined> {
+    const idNum = `/${id}`;
+    const url = this.getAllURL + idNum;
+    const data = await fetch(url);
     return (await data.json()) ?? [];
   }
 

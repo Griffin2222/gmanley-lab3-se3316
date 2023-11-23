@@ -1,0 +1,20 @@
+<section class="hero-details">
+    <h2 class="hero-name">{{hero?.name}}</h2>
+    <p>Gender: {{hero?.gender}}</p>
+    <p>Eye color: {{hero?.eyeColor}}</p>
+    <p>Race: {{hero?.race}}</p>
+    <p>Hair color: {{hero?.hairColor}}</p>
+    <p>Height: {{hero?.height}}</p>
+    <p>Publisher: {{hero?.publisher}}</p>
+    <p>Skin Color: {{hero?.skinColor}}</p>
+    <p>Alignment: {{hero?.alignment}}</p>
+    <p>Weight: {{hero?.weight}}</p>
+    <p>Powers:</p>
+    <div *ngIf="powers && powers.length > 0">
+        <h2>Hero Powers:</h2>
+        <ul>
+          <li *ngFor="let power of powers">{{ power.name }}</li>
+        </ul>
+      </div>
+    <a [routerLink]="['/heros']">Back To Search</a>
+</section>
