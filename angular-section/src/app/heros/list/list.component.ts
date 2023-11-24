@@ -4,6 +4,7 @@ import { ListService } from '../../list.service';
 import { Hero } from '../../hero';
 import { HeroService } from '../../hero.service';
 import { List } from '../../list';
+import { Injectable } from '@angular/core';
 
 @Component({
   selector: 'app-list',
@@ -17,6 +18,7 @@ export class ListComponent {
   @Input() heroList: Hero[] = [];
   lists: List[] = [];
   selectedList: List[] = [];
+  @Input() hero!: Hero;
 
   constructor(private listService: ListService, private heroService: HeroService){
     this.populateDropdown();
@@ -42,18 +44,20 @@ export class ListComponent {
       console.error('Error fetching lists:', error);
     }
   }
-
+  extractIdsFromObject(obj: any): string[] {
+    if (obj && obj.ids && Array.isArray(obj.ids)) {
+      return obj.ids.map((id:any) => id.toString());
+    } else {
+      return [];
+    }
+  }
 
   async selectList(index: number) {
     console.log('indexc', index);
     try {
-      const selectedLists = await this.listService.getList(index + 1);
-      if (selectedLists && Array.isArray(selectedLists) && selectedLists.length > 0) {
-        const selectedList = selectedLists[1]; // Assuming you want the first list
-        if (Array.isArray(selectedList.ids)) {
-          await this.getHeroes(selectedList.ids);
-        }
-      }
+      const selectedLists = await this.listService.getList(index + 1); 
+      const selectedList = this.extractIdsFromObject(selectedLists); // Assuming you want the first list
+      await this.getHeroes(selectedList);
       console.log(selectedLists);
     } catch (error) {
       console.error('Error selecting list:', error);
@@ -64,7 +68,11 @@ export class ListComponent {
     for (const id of ids) {
       try {
         const hero = await this.heroService.getHeroById(parseInt(id, 10)); // Assuming id is a number
-        console.log('Hero details:', hero?.name);
+        
+        if(hero){
+        console.log('Hero details:', hero.name);
+        this.heroList.push(hero);
+        }
         // Do something with the hero details
       } catch (error) {
         console.error('Error fetching hero details:', error);
