@@ -1,4 +1,4 @@
-import { Component,OnInit, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component,OnInit, inject, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '../title/title.component';
 import { SearchComponent } from '../search/search.component';
@@ -20,7 +20,7 @@ import { HttpClient } from '@angular/common/http';
 export class MainComponent{
   heroList: Hero[] = [];
   //heroService: HeroService = inject(HeroService);
-  constructor(private heroService: HeroService){}
+  constructor(private heroService: HeroService, private renderer: Renderer2){}
   ngOnInit(): void{}
 
     @ViewChild('searchName') searchNameInput!: ElementRef<HTMLInputElement>;
@@ -54,5 +54,24 @@ export class MainComponent{
           console.error('Error fetching hero data:', error);
         });
     }
+
+    sort(sortType: string) {
+      this.heroList.sort((a, b) => {
+        let textA, textB;
+  
+        if (sortType === 'name') {
+          textA = a.name.trim().toLowerCase();
+          textB = b.name.trim().toLowerCase();
+        } else if (sortType === 'race') {
+          textA = a.race.trim().toLowerCase();
+          textB = b.race.trim().toLowerCase();
+        } else {
+          textA = a.publisher.trim().toLowerCase();
+          textB = b.publisher.trim().toLowerCase();
+        }
+        return textA.localeCompare(textB);
+      });
+    }
+
   }
 

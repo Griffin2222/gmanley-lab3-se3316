@@ -31,6 +31,20 @@ export class ListComponent {
       const response = await this.listService.createList(listName, idsList);
       console.log('List created:', response);
       console.log(`HeroList:`, this.heroList);
+      this.populateDropdown();
+    } catch (error) {
+      console.error('Error creating list:', error);
+    }
+  }
+
+  async saveList(selectedIndex: number, listN: string) {
+    try {
+      const listName = listN;
+      const idsList = this.heroList.map(hero => hero.id.toString());
+      const response = await this.listService.saveList(selectedIndex, listName, idsList);
+      console.log('List created:', response);
+      console.log(`HeroList:`, this.heroList);
+      this.populateDropdown();
     } catch (error) {
       console.error('Error creating list:', error);
     }
@@ -53,6 +67,7 @@ export class ListComponent {
   }
 
   async selectList(index: number) {
+    this.clearList();
     console.log('indexc', index);
     try {
       const selectedLists = await this.listService.getList(index + 1); 
@@ -61,6 +76,16 @@ export class ListComponent {
       console.log(selectedLists);
     } catch (error) {
       console.error('Error selecting list:', error);
+    }
+  }
+
+  async deleteList(index : number, listName: string): Promise<void>{
+    console.log('index', index);
+    try{
+      await this.listService.deleteList(index+1, listName);
+      this.populateDropdown();
+    }catch (error){
+      console.error(`Error deleting lists`, error);
     }
   }
   
@@ -81,5 +106,8 @@ export class ListComponent {
   }
   updateDropdown(){
 
+  }
+  clearList(){
+    this.heroList.length = 0;
   }
 }

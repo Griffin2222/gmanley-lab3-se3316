@@ -31,6 +31,47 @@ export class ListService {
     }
   }
 
+  async saveList(listIndex: number,listName: string, idsList: string[]): Promise<any> {
+    const listItem = { listName, ids: idsList };
+    const idName = `/${listIndex}`;
+    const url = this.getAllURL + idName;
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listItem),
+      });
+      return response.json();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Assuming you have a service method like this in your ListService
+async deleteList(listIndex: number, listName: string): Promise<void> {
+  const idName = `/${listIndex}`;
+  const url = this.getAllURL + idName;
+
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify({listName})
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete list: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Error deleting list:', error);
+    throw error;
+  }
+}
+
+
+
   async getList(selectedID: number): Promise<List[] | undefined> {
     const idNum = `/${selectedID}`;
     const url = this.getAllURL + idNum;

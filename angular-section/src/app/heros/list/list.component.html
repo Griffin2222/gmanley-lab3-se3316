@@ -5,21 +5,12 @@
             <option *ngFor="let list of lists" [value]="list.listName">{{ list.listName }}</option>
         </select>
         <button id="selectListBtn" (click) = "selectList(listDropdown.selectedIndex)">Select</button>
-        <button id="deleteListBtn">Delete</button>
+        <button id="deleteListBtn" (click) = "deleteList(listDropdown.selectedIndex, listDropdown.value)">Delete</button>
     </div>
     <div class="list-center">
         <input #listName type="text" maxlength="20" placeholder="Enter List Name..." value="">
         <button id="newListBtn" (click) ="createList(listName.value)">New List</button>
-        <button id="saveListBtn" >Save List</button>
+        <button id="saveListBtn" (click) = "saveList(listDropdown.selectedIndex, listDropdown.value)">Save List</button>
     </div>
-    <div class="list-bottom">
-        <select id="sortList">
-            <option disabled selected>Sort By</option>
-            <option value="name">Name</option>
-            <option value="race">Race</option>
-            <option value="publisher">Publisher</option>
-            <option value="power">Power</option>
-        </select>
-        <button id="sortListBtn">Sort</button>
-    </div>
+    
 </div>
