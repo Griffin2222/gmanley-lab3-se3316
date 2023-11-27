@@ -24,17 +24,22 @@ export class ListComponent {
   @Input() hero!: Hero;
   selectedUser: User[] = [];
   usersLists: List[] = [];
+  
 
   constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
     this.populateDropdown();
     this.populateUsers();
+  
   }
 
-  async createList(listN: string) {
+  async createList(listN: string, visibility: boolean, additionalInfo: string) {
     try {
       const listName = listN;
+      const owner = "Griffin"
+      const rating: number[] = [];
+      const comment: string[] = [];
       const idsList = this.heroList.map(hero => hero.id.toString());
-      const response = await this.listService.createList(listName, idsList);
+      const response = await this.listService.createList(listName, idsList,owner, visibility, rating, comment, additionalInfo );
       console.log('List created:', response);
       console.log(`HeroList:`, this.heroList);
       this.populateDropdown();
@@ -86,8 +91,16 @@ export class ListComponent {
       this.selectedUser = await this.userService.getUser(userName);
       this.updateDropdown();
       console.log(this.selectedUser);
+      this.populateUsersLists(userName);
     }catch(error){
       console.log("Error finding user", error);
+    }
+  }
+  async populateUsersLists(userName:string){
+    try {
+      this.usersLists = await this.listService.getUserList(userName);
+    } catch (error) {
+      console.error('Error fetching lists:', error);
     }
   }
 
@@ -105,7 +118,15 @@ export class ListComponent {
   }
 
   async selectUserList(name:string){
-    console.log(name);
+    this.clearList();
+    try {
+      const selectedLists = await this.listService.getListByName(name); // create method to get list by name
+      const selectedList = this.extractIdsFromObject(selectedLists); // Assuming you want the first list
+      await this.getHeroes(selectedList);
+      console.log(selectedLists);
+    } catch (error) {
+      console.error('Error selecting list:', error);
+    }
   }
 
   async deleteList(index : number, listName: string): Promise<void>{

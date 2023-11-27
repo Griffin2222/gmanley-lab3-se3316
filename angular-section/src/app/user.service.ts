@@ -52,6 +52,7 @@ export class UserService {
   async verifyUser():Promise<any>{
     const idName = `user`;
     const thisurl = this.url + idName;
+    
     try{
       const response = await fetch(thisurl, {
         method: 'GET',

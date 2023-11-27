@@ -85,7 +85,7 @@ routerInfo.post("/login", async(req,res)=>{
             message: "Password is incorrect",
         })
     }
-    const token = jwt.sign({_id:user._id},"secret key");
+    const token = jwt.sign({_id:user._id},"secret");
     res.cookie("jwt", token, {
         httpOnly:true,
         maxAge:24*60*60*1000
@@ -155,7 +155,12 @@ routerInfo.route('/lists')
             else {
                 const superList = new ListItems({
                     listName: req.body.listName,
-                    ids: req.body.ids
+                    ids: req.body.ids,
+                    owner: req.body.owner,
+                    visibility: req.body.visibility,
+                    rating: req.body.rating,
+                    comment: req.body.comment,
+                    additionalInfo: req.body.additionalInfo
                 })
                 superList.save()
                 .then((result) => res.send(result))
@@ -169,6 +174,16 @@ routerInfo.route('/lists')
         const htmlRegex = /<[^>]*>/;
         return htmlRegex.test(input);
     }
+
+routerInfo.route('/userlistbyname/:listName')
+    .get((req, res) => {
+        const listName = req.params.listName;
+        ListItems.find({listName:`${req.params.listName}`}).select('-_id -createdAt -updatedAt -__v').limit(1)
+        .then((result) => { 
+            res.send(result[0]);
+        })
+        .catch((err) => console.log(err));
+    })
 
 routerInfo.route('/lists/:id')
     .get((req, res) => {
@@ -209,6 +224,19 @@ routerInfo.route('/publishers')
         }))
         .catch((err) => console.log(err));
     });
+
+
+routerInfo.route('/userLists/:name')
+    .get((req,res)=>{
+        const userName = req.params.name
+        ListItems.find({owner: `${req.params.name}`, visibility:true}).select('-_id -createdAt -updatedAt -__v')
+    .then((result) => { 
+        if(!result) return res.status(404).send(`No Lists were found for this user`);
+        res.send(result)
+    })
+    .catch((err) => console.log(err));
+});
+
 routerInfo.route('/filter')
     .get((req, res) => {
         const { name, race, publisher, power, limit } = req.query;

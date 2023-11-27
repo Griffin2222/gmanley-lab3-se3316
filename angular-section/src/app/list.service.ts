@@ -15,8 +15,8 @@ export class ListService {
 
   //${searchName.value}&race=${searchRace.value}&publisher=${searchPublisher.value}&power=${searchPower.value}&limit=${searchLimit.value}
 
-  async createList(listName: string, idsList: string[]): Promise<any> {
-    const listItem = { listName, ids: idsList };
+  async createList(listName: string, idsList: string[], owner: string, visibility: boolean, rating: number[], comment: string[], additionalInfo: string): Promise<any> {
+    const listItem = { listName: listName, ids: idsList, owner: owner,  visibility: visibility, rating:rating, comment: comment, additionalInfo: additionalInfo};
     try {
       const response = await fetch(this.getAllURL, {
         method: 'POST',
@@ -70,6 +70,16 @@ async deleteList(listIndex: number, listName: string): Promise<void> {
   }
 }
 
+async getUserList(userName: string): Promise<List[]>{
+  const user = `/userLists/${userName}` 
+  const url = `http://localhost:3000/api/superheroes`
+  const bigUrl = url + user
+  const data = await fetch(bigUrl);
+  return (await data.json())??[];
+}
+
+
+
 
 
   async getList(selectedID: number): Promise<List[] | undefined> {
@@ -77,6 +87,14 @@ async deleteList(listIndex: number, listName: string): Promise<void> {
     const url = this.getAllURL + idNum;
     const data = await fetch(url);
     return (await data.json()) ?? [];
+  }
+
+  async getListByName(name: string): Promise<List[]>{
+    const url = `http://localhost:3000/api/superheroes/userlistbyname/`;
+    const n = name;
+    const thisurl = url+n;
+    const data = await fetch(thisurl);
+    return (await data.json())??[];
   }
 
   getLists(): Promise<any[]> {

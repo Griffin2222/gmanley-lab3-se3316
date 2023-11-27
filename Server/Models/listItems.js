@@ -9,6 +9,26 @@ const listItemsSchema = new Schema({
     ids: {
         type: Array,
         required: true
+    },
+    owner:{
+        type: String,
+        required: true
+    },
+    visibility: {
+        type: Boolean,
+        required: true
+    },
+    rating: {
+        type: Array,
+        required: true  
+    },
+    comment: {
+        type: Array,
+        required: true
+    },
+    additionalInfo:{
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 

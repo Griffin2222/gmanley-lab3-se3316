@@ -9,9 +9,17 @@
     </div>
     <div class="list-center">
         <input #listName type="text" maxlength="20" placeholder="Enter List Name..." value="">
-        <button id="newListBtn" (click) ="createList(listName.value)">New List</button>
+        <input #additionalInfo type="text" maxlength="100" placeholder="enter additional info"value=''>
+        <select id = "privacy" #privacy>
+            <option [value]="true">Public</option>
+            <option [value]="false">Private</option>
+        </select>
+        <button id="newListBtn" (click) ="createList(listName.value, privacy.value ==='true', additionalInfo.value)">New List</button>
         <button id="saveListBtn" (click) = "saveList(listDropdown.selectedIndex, listDropdown.value)">Save List</button>
     </div>
+
+
+
     <select id = "users" #usersDropdown>
         <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
     </select>
@@ -19,6 +27,6 @@
     <select id = "userLists" #usersListDropdown>
         <option *ngFor="let usersList of usersLists" [value]="usersList.listName">{{usersList.listName}}</option>
     </select>
-    <button id="selectUserListBtn" (click)="selectUserList(usersListDropdown.value)">Select User</button>
+    <button id="selectUserListBtn" (click)="selectUserList(usersListDropdown.value)">Select List</button>
     
 </div>
