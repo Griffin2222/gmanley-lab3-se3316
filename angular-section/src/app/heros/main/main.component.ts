@@ -7,6 +7,10 @@ import { ResultsComponent } from '../results/results.component';
 import { Hero } from '../../hero';
 import { HeroService } from '../../hero.service';
 import { HttpClient } from '@angular/common/http';
+import { Emitters } from '../../emitters/emitters';
+import { application } from 'express';
+import { subscribe } from 'diagnostics_channel';
+import { Router } from '@angular/router';
 
 
 
@@ -18,10 +22,22 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './main.component.css'
 })
 export class MainComponent{
+  authenticated = true;
   heroList: Hero[] = [];
+  message: string;
   //heroService: HeroService = inject(HeroService);
-  constructor(private heroService: HeroService, private renderer: Renderer2){}
-  ngOnInit(): void{}
+  constructor(
+    private heroService: HeroService,
+     private renderer: Renderer2,
+     private router: Router){
+    this.verifyUser();
+  }
+  ngOnInit(): void{
+    this.verifyUser();
+    Emitters.authEmitter.subscribe((auth:boolean)=>{
+      this.authenticated = auth;
+    })
+  }
 
     @ViewChild('searchName') searchNameInput!: ElementRef<HTMLInputElement>;
     @ViewChild('searchRace') searchRaceInput!: ElementRef<HTMLInputElement>;
@@ -71,6 +87,51 @@ export class MainComponent{
         }
         return textA.localeCompare(textB);
       });
+    }
+
+    private url = "http://localhost:3000/api/superheroes/";
+
+    async verifyUser(): Promise<void>{
+      const idName = `user`;
+      const thisurl = this.url + idName;
+      try{
+        const response = await fetch(thisurl, {
+          method: 'GET',
+          headers: {
+              'Content-Type':'application/json',
+          },
+          credentials: 'include'
+        }).then(
+          (response: any) =>{
+            this.message = (`Hi${response.user.name}`);
+            Emitters.authEmitter.emit(true);
+          }
+        );
+      } catch(error){
+        this.message = ("you are not logged in");
+        Emitters.authEmitter.emit(false);
+        console.log("You are not logged in");
+      }
+    }
+
+    async logout(): Promise<void>{
+      const idName = `logout`;
+      const thisurl = this.url + idName;
+      try{
+        const response = await fetch(thisurl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'
+        }).then(
+          ()=> {
+            this.authenticated = false;
+            this.router.navigate(['/login']);
+          })
+      }catch(error){
+        console.log("error")
+      }
     }
 
   }

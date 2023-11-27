@@ -12,5 +12,13 @@
         <button id="newListBtn" (click) ="createList(listName.value)">New List</button>
         <button id="saveListBtn" (click) = "saveList(listDropdown.selectedIndex, listDropdown.value)">Save List</button>
     </div>
+    <select id = "users" #usersDropdown>
+        <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+    </select>
+    <button id="selectUserBtn" (click)="selectUser(usersDropdown.value)">Select User</button>
+    <select id = "userLists" #usersListDropdown>
+        <option *ngFor="let usersList of usersLists" [value]="usersList.listName">{{usersList.listName}}</option>
+    </select>
+    <button id="selectUserListBtn" (click)="selectUserList(usersListDropdown.value)">Select User</button>
     
 </div>

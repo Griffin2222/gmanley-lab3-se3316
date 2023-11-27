@@ -2,29 +2,143 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const app = express();
 const dbURI = 'mongodb+srv://griffin:Griffin22@cluster0.3bjuofm.mongodb.net/Superheroes?retryWrites=true&w=majority';
 const Heros = require('./Models/heros');
 const Powers = require('./Models/powers');
 const ListItems = require('./Models/listItems');
+const User = require('./Models/user');
 const routerInfo = express.Router();
 const routerPower = express.Router();
 const port = 3000;
 
 
+
 app.use(express.json());
+app.use(cookieParser());
 
 // displays static webpage from index.html
 app.use('/', express.static(path.join(__dirname, '..', 'Client')));
 
 app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', true)
     res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     console.log(`${req.method} request for ${req.url}`);
     next();
 });
+
+
+routerInfo.post("/register", async (req,res)=>{
+   let email = req.body.email;
+   let password = req.body.password;
+   let name = req.body.name;
+
+   const salt = await bcrypt.genSalt(10);
+   const hashedPassword = await bcrypt.hash(password, salt);
+   const record = await User.findOne({email:email});
+
+   if(record){
+    return res.status(400).send({
+        "message":"Email is already registered"
+    })
+   } else{
+
+   const user = new User({
+    name: name,
+    email: email,
+    password: hashedPassword
+   })
+   const result = await user.save();
+
+   const{_id} = await result.toJSON();
+   const token = jwt.sign({_id:_id}, "secret");
+   res.cookie("jwt", token, {
+    httpOnly:true,
+    maxAge:24*60*60*1000
+   })
+
+   res.send({
+    message:"success"
+   })
+
+//    res.json({
+//     user:result
+//    }) 
+    }
+})
+
+routerInfo.post("/login", async(req,res)=>{
+    const user = await User.findOne({email: req.body.email});
+    if(!user){
+        return res.status(404).send({
+            message: "user not found",
+        })
+    }
+    if(!(await bcrypt.compare(req.body.password, user.password))){
+        return res.status(400).send({
+            message: "Password is incorrect",
+        })
+    }
+    const token = jwt.sign({_id:user._id},"secret key");
+    res.cookie("jwt", token, {
+        httpOnly:true,
+        maxAge:24*60*60*1000
+    })
+res.send({
+    message: "success"
+})
+})
+
+routerInfo.get('/user', async(req,res)=>{
+   try{
+    const cookie = req.cookies['jwt'];
+    const claims = jwt.verify(cookie, "secret");
+
+    if(!claims){
+        return res.status(401).send({
+            message:"unauthenticated"
+        });
+    }
+    const user = await User.findOne({_id:claims._id});
+    const{password,...data} = await user.toJSON();
+    res.send(data);
+
+   }catch(err){
+    return res.status(401).send({
+        message: "unauthenticated"
+    });
+   }
+   
+    // res.send("user");
+})
+
+routerInfo.post("/logout", (req,res)=>{
+    res.cookie("jwt", "", {maxAge: 0});
+    res.send({
+        message: "success",
+    })
+})
+routerInfo.get("/getUsers", (req,res)=>{
+    User.find({})
+    .then((result)=>{
+        res.send(result);
+    });
+})
+routerInfo.get("/getUsers/:name", (req,res)=>{
+    const name = req.params.name;
+    User.find({name:name}).select('-_id -createdAt -updatedAt -__v')
+    .then((result)=>{
+        if(!result[0]) return res.status(404).send(`${name} has no users...`);
+        res.send(result[0]);
+    });
+})
+
 
 routerInfo.route('/lists')
     .get((req, res) => {

@@ -4,6 +4,8 @@ import { ListService } from '../../list.service';
 import { Hero } from '../../hero';
 import { HeroService } from '../../hero.service';
 import { List } from '../../list';
+import { User } from '../../user';
+import { UserService } from '../../user.service';
 import { Injectable } from '@angular/core';
 
 @Component({
@@ -18,10 +20,14 @@ export class ListComponent {
   @Input() heroList: Hero[] = [];
   lists: List[] = [];
   selectedList: List[] = [];
+  users: User[] = [];
   @Input() hero!: Hero;
+  selectedUser: User[] = [];
+  usersLists: List[] = [];
 
-  constructor(private listService: ListService, private heroService: HeroService){
+  constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
     this.populateDropdown();
+    this.populateUsers();
   }
 
   async createList(listN: string) {
@@ -66,6 +72,25 @@ export class ListComponent {
     }
   }
 
+  async populateUsers(){
+    try{
+      this.users = await this.userService.getUsers();
+      this.updateDropdown();
+    }catch(error){
+      console.log('Error fetching users', error);
+    }
+  }
+
+  async selectUser(userName:string){
+    try{
+      this.selectedUser = await this.userService.getUser(userName);
+      this.updateDropdown();
+      console.log(this.selectedUser);
+    }catch(error){
+      console.log("Error finding user", error);
+    }
+  }
+
   async selectList(index: number) {
     this.clearList();
     console.log('indexc', index);
@@ -77,6 +102,10 @@ export class ListComponent {
     } catch (error) {
       console.error('Error selecting list:', error);
     }
+  }
+
+  async selectUserList(name:string){
+    console.log(name);
   }
 
   async deleteList(index : number, listName: string): Promise<void>{

@@ -23,6 +23,8 @@
     </select>
     <button id="sortListBtn" (click) = "sort(sortListDropdown.value)">Sort</button>
 </div>
+<p>{{this.message}}</p>
+<button id = "logoutBtn" (click) = "logout()">Logout</button>
 <app-results
 *ngFor="let hero of heroList"
 [hero] = "hero"

@@ -1,6 +1,10 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { UserService } from '../../user.service';
+
+
 
 @Component({
   selector: 'app-create-account-page',
@@ -14,12 +18,31 @@ export class CreateAccountPageComponent {
   @ViewChild('pword') pwordInput!: ElementRef<HTMLInputElement>;
   @ViewChild('confirmPWord') confirmPWord!: ElementRef<HTMLInputElement>;
 
-  constructor(private router: Router){}
+  constructor(private userService: UserService,
+    private router: Router){}
 
-  createAccount(userName: string, pword:string, confirmPWord:string){
-    console.log('user', userName);
-    console.log('pword', pword);
-    console.log('cpword', confirmPWord);
-    this.router.navigate(['/login']);
+  validateEmail = (email:any) =>{
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(email.match(emailRegex)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  createAccount(email: string, name:string, password:string){
+    console.log('email', email);
+    console.log('name', name);
+    console.log('pword', password);
+    if(email == ""||name == ""||password==""){
+      console.log("Error, please enter all fields");
+    }else if(!this.validateEmail(email)){
+      console.log("Error, email is not valid")
+    }else{
+      this.userService.registerUser(email,name,password);
+      
+
+      this.router.navigate(['/login']);
+    }
   }
 }

@@ -1,7 +1,13 @@
-<p>Enter Username:</p>
-<input #userName required>
+<p>Enter Email:</p>
+<input #email required>
+<p>Enter name</p>
+<input #name required>
 <p>Enter Password</p>
-<input #pword required>
-<p>Confirm Password</p>
-<input #confirmPWord required>
-<Button (click) = "createAccount(userName.value, pword.value, confirmPWord.value)">Create Account</Button>
+<input #password required>
+<Button (click) = "createAccount(email.value, name.value, password.value)">Create Account</Button>
+<div *ngIf="!this.validateEmail(email.value)">
+    <p>Please Enter Valid Email</p>
+</div>
+<div *ngIf="email.value == ''||name.value ==''||password.value==''">
+    <p>All Fields are required</p>
+</div>
