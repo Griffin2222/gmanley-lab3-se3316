@@ -31,8 +31,8 @@ export class ListService {
     }
   }
 
-  async saveList(listIndex: number,listName: string, idsList: string[]): Promise<any> {
-    const listItem = { listName, ids: idsList };
+  async saveList(listIndex: number,listName: string, idsList: string[], owner: string, visibility: boolean, rating: number[], comment: string[], additionalInfo: string): Promise<any> {
+    const listItem = { listName: listName, ids: idsList, owner: owner,  visibility: visibility, rating:rating, comment: comment, additionalInfo: additionalInfo};
     const idName = `/${listIndex}`;
     const url = this.getAllURL + idName;
     try {

@@ -15,7 +15,7 @@
             <option [value]="false">Private</option>
         </select>
         <button id="newListBtn" (click) ="createList(listName.value, privacy.value ==='true', additionalInfo.value)">New List</button>
-        <button id="saveListBtn" (click) = "saveList(listDropdown.selectedIndex, listDropdown.value)">Save List</button>
+        <button id="saveListBtn" (click) = "saveList(listDropdown.selectedIndex, listDropdown.value, privacy.value==='true', additionalInfo.value)">Save List</button>
     </div>
 
 
@@ -28,5 +28,11 @@
         <option *ngFor="let usersList of usersLists" [value]="usersList.listName">{{usersList.listName}}</option>
     </select>
     <button id="selectUserListBtn" (click)="selectUserList(usersListDropdown.value)">Select List</button>
+
+    <div *ngIf="this.showFeedback ==true">
+        <input #comment type="text" maxlength="100"placeholder="Enter a comment on the List" value="">
+        <input #rating type="text" maxlength="1" placeholder="Enter a rating from 0 to 5" value="">
+        <button id="submitComment" (click)="submitComment(comment.value, rating.value)">Submit Review</button>
+    </div>
     
 </div>

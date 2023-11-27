@@ -24,6 +24,7 @@ export class ListComponent {
   @Input() hero!: Hero;
   selectedUser: User[] = [];
   usersLists: List[] = [];
+  showFeedback: boolean = false;
   
 
   constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
@@ -48,11 +49,14 @@ export class ListComponent {
     }
   }
 
-  async saveList(selectedIndex: number, listN: string) {
+  async saveList(selectedIndex: number, listN: string, visibility: boolean,  additionalInfo:string) {
     try {
       const listName = listN;
+      const owner = "Griffin";
+      const rating :number[] = [];
+      const comment:string[] = [];
       const idsList = this.heroList.map(hero => hero.id.toString());
-      const response = await this.listService.saveList(selectedIndex, listName, idsList);
+      const response = await this.listService.saveList(selectedIndex, listName, idsList, owner, visibility, rating, comment, additionalInfo);
       console.log('List created:', response);
       console.log(`HeroList:`, this.heroList);
       this.populateDropdown();
@@ -104,6 +108,15 @@ export class ListComponent {
     }
   }
 
+  async submitComment(comment:string, rating:string){
+    const numberRating = parseInt(rating);
+    try{
+      
+    }catch(error){
+      console.error("error adding comment", error)
+    }
+  }
+
   async selectList(index: number) {
     this.clearList();
     console.log('indexc', index);
@@ -124,6 +137,7 @@ export class ListComponent {
       const selectedList = this.extractIdsFromObject(selectedLists); // Assuming you want the first list
       await this.getHeroes(selectedList);
       console.log(selectedLists);
+      this.showFeedback = true;
     } catch (error) {
       console.error('Error selecting list:', error);
     }
