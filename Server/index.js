@@ -185,6 +185,36 @@ routerInfo.route('/userlistbyname/:listName')
         .catch((err) => console.log(err));
     })
 
+    routerInfo.route('/listcomments/:listName')
+    .put((req, res) => {
+        // Extract data from the request body
+        const { rating, comment } = req.body;
+
+        // Check if required fields are present
+        if (!rating || !comment) {
+            return res.status(400).send('Missing rating or comment');
+        }
+
+        // Update the document in the database
+        ListItems.findOneAndUpdate(
+            { listName: req.params.listName },
+            { $push: { rating: rating[0], comment: comment[0] } },
+            { new: true } // Return the modified document
+        )
+        .then((result) => {
+            if (!result) {
+                return res.status(404).send('List not found...');
+            }
+            
+            res.send(result);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
+    });
+
+
 routerInfo.route('/lists/:id')
     .get((req, res) => {
         ListItems.find({}).skip(req.params.id-1).limit(1)

@@ -32,7 +32,7 @@
     <div *ngIf="this.showFeedback ==true">
         <input #comment type="text" maxlength="100"placeholder="Enter a comment on the List" value="">
         <input #rating type="text" maxlength="1" placeholder="Enter a rating from 0 to 5" value="">
-        <button id="submitComment" (click)="submitComment(comment.value, rating.value)">Submit Review</button>
+        <button id="submitComment" (click)="submitComment(usersListDropdown.value, comment.value, rating.value)">Submit Review</button>
     </div>
     
 </div>

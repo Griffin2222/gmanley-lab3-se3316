@@ -49,6 +49,25 @@ export class ListService {
     }
   }
 
+  async updateRating(listName: string, rating: number[], comment: string[]): Promise<any> {
+    const listItem = { rating:rating, comment: comment};
+    const idName = `/${listName}`;
+    const url = `http://localhost:3000/api/superheroes/listcomments`
+    const realURL = url + idName
+    try {
+      const response = await fetch(realURL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listItem),
+      });
+      return response.json();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   // Assuming you have a service method like this in your ListService
 async deleteList(listIndex: number, listName: string): Promise<void> {
   const idName = `/${listIndex}`;

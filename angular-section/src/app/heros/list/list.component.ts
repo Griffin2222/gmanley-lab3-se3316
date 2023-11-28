@@ -37,8 +37,8 @@ export class ListComponent {
     try {
       const listName = listN;
       const owner = "Griffin"
-      const rating: number[] = [];
-      const comment: string[] = [];
+      const rating: number[] = [5];
+      const comment: string[] = ["helo"];
       const idsList = this.heroList.map(hero => hero.id.toString());
       const response = await this.listService.createList(listName, idsList,owner, visibility, rating, comment, additionalInfo );
       console.log('List created:', response);
@@ -80,6 +80,14 @@ export class ListComponent {
       return [];
     }
   }
+  extractListName(obj: any): string {
+    if (obj && obj.listName) {
+      return obj.listName;
+    } else {
+      // Handle the case when listName is not present or undefined
+      return '';
+    }
+  }
 
   async populateUsers(){
     try{
@@ -108,10 +116,14 @@ export class ListComponent {
     }
   }
 
-  async submitComment(comment:string, rating:string){
-    const numberRating = parseInt(rating);
+  async submitComment(name:string, comment:string, rating:string){
+    const commentArr = [];
+    commentArr.push(comment);
+    const ratingArr: number [] = [];
+    ratingArr.push(parseInt(rating));
+    console.log(name);
     try{
-      
+      await this.listService.updateRating(name, ratingArr, commentArr)
     }catch(error){
       console.error("error adding comment", error)
     }
