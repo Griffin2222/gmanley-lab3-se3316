@@ -1,0 +1,17 @@
+<select id = "users" #usersDropdown>
+    <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+</select>
+<button id="deactivateUser" (click)="deactivateUser(usersDropdown.value)">Deactivate User</button>
+<button id="reactivateUser" (click)="reactivateUser(usersDropdown.value)">Reactivate User</button>
+<select id = "dropdown" #listDropdown>
+    <option *ngFor="let list of lists" [value]="list.listName">{{ list.listName }}</option>
+</select>
+
+<button id="retrieveReviews" (click)="populateReviews(listDropdown.selectedIndex)">Retrieve Reviews</button>
+
+<select id="review" #review>
+    <option *ngFor="let comment of commentList" [value]="comment">{{comment}}</option>
+</select>
+
+<button id="deleteUserListBtn" (click)="removeComment(review.selectedIndex, listDropdown.selectedIndex)">Remove Comment</button>
+

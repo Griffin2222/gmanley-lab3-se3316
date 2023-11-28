@@ -32,7 +32,11 @@ export class HeaderComponent {
    try{
     this.response = await this.userService.login(email, password);
     if(this.response && this.response.message=== 'success'){
+      if(email==='admin@admin.com'){
+        this.router.navigate(['/admin']);
+      }else{
       this.router.navigate(['/heros']);
+      }
     }else{
       this.invalid = false;
     }

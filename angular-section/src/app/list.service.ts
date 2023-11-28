@@ -101,7 +101,7 @@ async getUserList(userName: string): Promise<List[]>{
 
 
 
-  async getList(selectedID: number): Promise<List[] | undefined> {
+  async getList(selectedID: number): Promise<List[]> {
     const idNum = `/${selectedID}`;
     const url = this.getAllURL + idNum;
     const data = await fetch(url);

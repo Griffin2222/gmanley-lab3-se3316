@@ -49,10 +49,28 @@ export class UserService {
     }
   }
 
+  async changeStatus(name:string, status:boolean): Promise<any>{
+    const user = {status:status};
+    const id = `userStatus/${name}`;
+    const thisURL = this.url+id;
+    try{
+      const response = await fetch(thisURL, {
+        method: 'PUT',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify(user),
+      });
+      return response.json();
+    }catch(error){
+      throw(error);
+    }
+  }
+
   async verifyUser():Promise<any>{
     const idName = `user`;
     const thisurl = this.url + idName;
-    
+
     try{
       const response = await fetch(thisurl, {
         method: 'GET',

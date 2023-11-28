@@ -38,6 +38,7 @@ routerInfo.post("/register", async (req,res)=>{
    let email = req.body.email;
    let password = req.body.password;
    let name = req.body.name;
+   let active = true;
 
    const salt = await bcrypt.genSalt(10);
    const hashedPassword = await bcrypt.hash(password, salt);
@@ -52,7 +53,8 @@ routerInfo.post("/register", async (req,res)=>{
    const user = new User({
     name: name,
     email: email,
-    password: hashedPassword
+    password: hashedPassword,
+    active: active
    })
    const result = await user.save();
 
@@ -213,6 +215,31 @@ routerInfo.route('/userlistbyname/:listName')
             res.status(500).send('Internal Server Error');
         });
     });
+
+routerInfo.route('/userStatus/:name')
+    .put((req,res)=>{
+        User.findOneAndUpdate(
+            { name: req.params.name },
+            { active: req.body.status},
+            { new: true } // Return the modified document
+        )
+        .then((result) => {
+            if (!result) {
+                return res.status(404).send('User not found...');
+            }
+            
+            res.send(result);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
+    })
+
+// routerInfo.route('/getReview/:listName')
+//     .get((req,res)=>{
+//         ListItems.find({listName:})
+//     })
 
 
 routerInfo.route('/lists/:id')
