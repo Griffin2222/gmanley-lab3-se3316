@@ -27,7 +27,8 @@ export class AdminComponent {
   selectedUser: User[] = [];
   usersLists: List[] = [];
   showFeedback: boolean = false;
-  commentList: (string|number) [] = [];
+  commentList: (string) [] = [];
+  ratingList: (number)[] = [];
   
 
   constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
@@ -51,9 +52,11 @@ export class AdminComponent {
     try {
       const list : List[] = await this.listService.getList(index + 1);
       console.log(list);
-      const comments = this.extractCommentFromObject(list)
+      const comments = this.extractCommentFromObject(list);
+      const rating = this.extractRatingFromObject(list);
       console.log(comments);
       this.commentList=comments;
+      this.ratingList=rating;
       
       }
      catch (error) {
@@ -62,9 +65,10 @@ export class AdminComponent {
   }
   
 
-  removeComment(commentindex:number, listIndex:number){
-    console.log(commentindex);
-    console.log(listIndex);
+  async removeComment(listName: string,commentindex:number, listIndex:number){
+   await this.listService.deleteRating(listName, commentindex);
+   this.populateReviews(listIndex);
+
   }
   
 
@@ -120,6 +124,14 @@ export class AdminComponent {
   extractCommentFromObject(obj: any): string[] {
     if (obj && obj.comment && Array.isArray(obj.comment)) {
       return obj.comment.map((comment:any) => comment.toString());
+    } else {
+      return [];
+    }
+  }
+
+  extractRatingFromObject(obj: any): number[] {
+    if (obj && obj.rating && Array.isArray(obj.rating)) {
+      return obj.rating.map((rating:any) => parseInt(rating));
     } else {
       return [];
     }

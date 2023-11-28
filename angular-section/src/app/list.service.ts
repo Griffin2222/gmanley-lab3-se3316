@@ -97,6 +97,32 @@ async getUserList(userName: string): Promise<List[]>{
   return (await data.json())??[];
 }
 
+async deleteRating(listName: string, index: number): Promise<any> {
+  const url = `http://localhost:3000/api/superheroes/listcomments/${listName}/${index}`;
+  
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // Check if the response status is in the range 200-299 (success)
+    if (response.ok) {
+      // Parse and return the JSON data
+      return await response.json();
+    } else {
+      // Handle the error and throw an exception
+      throw new Error(`Error deleting rating: ${response.status} - ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Error deleting rating:', error);
+    throw error;
+  }
+}
+
+
 
 
 

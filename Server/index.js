@@ -240,6 +240,47 @@ routerInfo.route('/userStatus/:name')
 //     .get((req,res)=>{
 //         ListItems.find({listName:})
 //     })
+routerInfo.route('/listcomments/:listName/:index')
+    .delete((req, res) => {
+        // Extract index from the request parameters
+        const index = parseInt(req.params.index);
+
+        // Create an update object to set the element at the specified index to null
+        const updateObject = {};
+        updateObject[`rating.${index}`] = null;
+        updateObject[`comment.${index}`] = null;
+
+        // Update the document in the database
+        ListItems.findOneAndUpdate(
+            { listName: req.params.listName },
+            { $set: updateObject },
+            { new: true }
+        )
+        .then((result) => {
+            if (!result) {
+                return res.status(404).send('List not found...');
+            }
+
+            // Use $pull to remove null values from the arrays
+            ListItems.findOneAndUpdate(
+                { listName: req.params.listName },
+                { $pull: { rating: null, comment: null } },
+                { new: true }
+            )
+            .then((finalResult) => {
+                res.send(finalResult);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
+    });
+
 
 
 routerInfo.route('/lists/:id')
