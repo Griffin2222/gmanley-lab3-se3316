@@ -16,6 +16,7 @@
         </select>
         <button id="newListBtn" (click) ="createList(listName.value, privacy.value ==='true', additionalInfo.value)">New List</button>
         <button id="saveListBtn" (click) = "saveList(listDropdown.selectedIndex, listDropdown.value, privacy.value==='true', additionalInfo.value)">Save List</button>
+        <h1>{{addinfo}}</h1>
     </div>
 
 
@@ -34,5 +35,6 @@
         <input #rating type="text" maxlength="1" placeholder="Enter a rating from 0 to 5" value="">
         <button id="submitComment" (click)="submitComment(usersListDropdown.value, comment.value, rating.value)">Submit Review</button>
     </div>
+    
     
 </div>

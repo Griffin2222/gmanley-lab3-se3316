@@ -38,7 +38,7 @@ export class HeaderComponent {
       this.response.message = 'failure';
       console.log(this.response.message);
     }else if(this.response && this.response.message=== 'success'){
-      if(email==='admin@admin.com'){
+      if(email==='admin@admin.com'||user.admin == true){
         this.router.navigate(['/admin']);
       }else{
       this.router.navigate(['/heros']);

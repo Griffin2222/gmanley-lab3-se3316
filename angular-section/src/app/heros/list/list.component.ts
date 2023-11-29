@@ -25,7 +25,7 @@ export class ListComponent {
   selectedUser: User[] = [];
   usersLists: List[] = [];
   showFeedback: boolean = false;
-  
+  addinfo:string = "";
 
   constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
     this.populateDropdown();
@@ -88,6 +88,14 @@ export class ListComponent {
       return '';
     }
   }
+  extractAdditionalInfo(obj: any): string {
+    if (obj && obj.additionalInfo) {
+      return obj.additionalInfo;
+    } else {
+      // Handle the case when listName is not present or undefined
+      return '';
+    }
+  }
 
   async populateUsers(){
     try{
@@ -104,6 +112,7 @@ export class ListComponent {
       this.updateDropdown();
       console.log(this.selectedUser);
       this.populateUsersLists(userName);
+      
     }catch(error){
       console.log("Error finding user", error);
     }
@@ -137,6 +146,8 @@ export class ListComponent {
       const selectedList = this.extractIdsFromObject(selectedLists); // Assuming you want the first list
       await this.getHeroes(selectedList);
       console.log(selectedLists);
+      this.addinfo = this.extractAdditionalInfo(selectedLists);
+     // console.log(this.additionalInfo)
     } catch (error) {
       console.error('Error selecting list:', error);
     }
@@ -150,6 +161,8 @@ export class ListComponent {
       await this.getHeroes(selectedList);
       console.log(selectedLists);
       this.showFeedback = true;
+      this.addinfo = this.extractAdditionalInfo(selectedLists);
+    //  console.log(this.additionalInfo)
     } catch (error) {
       console.error('Error selecting list:', error);
     }

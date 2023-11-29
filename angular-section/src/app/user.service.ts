@@ -67,6 +67,24 @@ export class UserService {
     }
   }
 
+  async changeAdminStatus(name:string, adminStatus:boolean): Promise<any>{
+    const user = {adminStatus:adminStatus};
+    const id = `adminStatus/${name}`;
+    const thisURL = this.url+id;
+    try{
+      const response = await fetch(thisURL, {
+        method: 'PUT',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify(user),
+      });
+      return response.json();
+    }catch(error){
+      throw(error);
+    }
+  }
+
   async verifyUser():Promise<any>{
     const idName = `user`;
     const thisurl = this.url + idName;

@@ -47,6 +47,16 @@ export class AdminComponent {
     const response = await this.userService.changeStatus(name, false);
     console.log(response);
   }
+  async makeAdmin(name:string){
+    console.log(name);
+    const response = await this.userService.changeAdminStatus(name, true);
+    console.log(response)
+  }
+  async removeAdmin(name:string){
+    console.log(name);
+    const response = await this.userService.changeAdminStatus(name, false);
+    console.log(response)
+  }
   async populateReviews(index: number) {
     console.log(index);
     try {

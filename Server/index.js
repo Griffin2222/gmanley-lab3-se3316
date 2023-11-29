@@ -53,7 +53,8 @@ routerInfo.post("/register", async (req,res)=>{
     name: name,
     email: email,
     password: hashedPassword,
-    active: Boolean(true)
+    active: Boolean(true),
+    admin: Boolean(false),
    })
    const result = await user.save();
 
@@ -229,6 +230,26 @@ routerInfo.route('/userStatus/:name')
         User.findOneAndUpdate(
             { name: req.params.name },
             { active: req.body.status},
+            { new: true } // Return the modified document
+        )
+        .then((result) => {
+            if (!result) {
+                return res.status(404).send('User not found...');
+            }
+            
+            res.send(result);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
+    })
+
+    routerInfo.route('/adminStatus/:name')
+    .put((req,res)=>{
+        User.findOneAndUpdate(
+            { name: req.params.name },
+            { admin: req.body.adminStatus},
             { new: true } // Return the modified document
         )
         .then((result) => {
