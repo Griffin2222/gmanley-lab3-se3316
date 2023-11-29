@@ -15,7 +15,11 @@
     <div class="form-group">
         <button (click)="createAccountBtn()">Create New Account</button>
     </div>
+    <div *ngIf = "!invalid">
+        <p>Please Try Again</p>
+    </div>
+    <div *ngIf = "!userActive">
+        <label>Account inactive, please contact site admin</label>
+    </div>
 </div>
-<div *ngIf = "!invalid">
-    <p>Please Try Again</p>
-</div>
+

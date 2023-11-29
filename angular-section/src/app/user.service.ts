@@ -12,7 +12,7 @@ export class UserService {
   private url = "http://localhost:3000/api/superheroes/";
 
   async registerUser(email:string, name:string, password:string): Promise<any>{
-    const user = {name: name, email: email,  password: password };
+    const user = {name: name, email: email,  password: password, active:true };
     const idName = `register`;
     const thisurl = this.url + idName;
     try {
@@ -107,6 +107,22 @@ export class UserService {
   getUser(name: string): Promise<User[]> {
     const idName = `getUsers/`;
     const thisurl = this.url + idName + name;
+    return fetch(thisurl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .catch(error => {
+        console.error('Error fetching lists:', error);
+        throw error;
+      });
+  }
+
+  getUserByEmail(email: string): Promise<User> {
+    const idName = `getUsersByEmail/`;
+    const thisurl = this.url + idName + email;
     return fetch(thisurl)
       .then(response => {
         if (!response.ok) {

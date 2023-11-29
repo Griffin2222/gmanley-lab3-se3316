@@ -18,6 +18,7 @@ export class HeaderComponent {
   @ViewChild('password') passwordInput!: ElementRef<HTMLInputElement>;
   response: {message: string} = {message: ""};
   invalid: boolean = true;
+  userActive: boolean = true;
   
 
   constructor(private router: Router,
@@ -31,7 +32,12 @@ export class HeaderComponent {
   async login(email: string, password: string){
    try{
     this.response = await this.userService.login(email, password);
-    if(this.response && this.response.message=== 'success'){
+    const user = await this.userService.getUserByEmail(email);
+    if(user.active == false){
+      this.userActive = false;
+      this.response.message = 'failure';
+      console.log(this.response.message);
+    }else if(this.response && this.response.message=== 'success'){
       if(email==='admin@admin.com'){
         this.router.navigate(['/admin']);
       }else{

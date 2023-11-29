@@ -38,7 +38,6 @@ routerInfo.post("/register", async (req,res)=>{
    let email = req.body.email;
    let password = req.body.password;
    let name = req.body.name;
-   let active = true;
 
    const salt = await bcrypt.genSalt(10);
    const hashedPassword = await bcrypt.hash(password, salt);
@@ -54,7 +53,7 @@ routerInfo.post("/register", async (req,res)=>{
     name: name,
     email: email,
     password: hashedPassword,
-    active: active
+    active: Boolean(true)
    })
    const result = await user.save();
 
@@ -137,6 +136,15 @@ routerInfo.get("/getUsers/:name", (req,res)=>{
     User.find({name:name}).select('-_id -createdAt -updatedAt -__v')
     .then((result)=>{
         if(!result[0]) return res.status(404).send(`${name} has no users...`);
+        res.send(result[0]);
+    });
+})
+
+routerInfo.get("/getUsersbyEmail/:email", (req,res)=>{
+    const email = req.params.email;
+    User.find({email:email}).select('-_id -createdAt -updatedAt -__v')
+    .then((result)=>{
+        if(!result[0]) return res.status(404).send(`${email} has no users...`);
         res.send(result[0]);
     });
 })
