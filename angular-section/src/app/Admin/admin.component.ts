@@ -7,6 +7,8 @@ import { List } from '../list';
 import { User } from '../user';
 import { UserService } from '../user.service';
 import { Injectable } from '@angular/core';
+import { Emitters } from '../emitters/emitters';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,12 +31,22 @@ export class AdminComponent {
   showFeedback: boolean = false;
   commentList: (string) [] = [];
   ratingList: (number)[] = [];
+  message:string;
+  authenticated = true;
   
 
-  constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
+  constructor(private listService: ListService, private heroService: HeroService, private userService: UserService, private router:Router){
     this.populateDropdown();
     this.populateUsers();
+    this.verifyUser();
   
+  }
+
+  ngOnInit(): void{
+    this.verifyUser();
+    Emitters.authEmitter.subscribe((auth:boolean)=>{
+      this.authenticated = auth;
+    })
   }
 
   async reactivateUser(name:string){
@@ -255,5 +267,37 @@ export class AdminComponent {
   clearList(){
     this.heroList.length = 0;
   }
+
+  private url = "http://localhost:3000/api/superheroes/";
+
+    async verifyUser(): Promise<void> {
+      const idName = `user`;
+      const thisurl = this.url + idName;
+    
+      try {
+        const response = await fetch(thisurl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        const userData = await response.json();
+        if (response.ok && userData.admin == true ) {
+          const userData = await response.json();
+          this.message = `Hi ${userData.name}`;
+          Emitters.authEmitter.emit(true);
+        } else {
+          this.message = 'You are not logged in';
+          Emitters.authEmitter.emit(false);
+          console.log('You are not logged in');
+          this.router.navigate(['/login']);
+        } 
+        
+      } catch (error) {
+        console.error('Error during user verification:', error);
+        // Handle the error, update the UI, etc.
+      }
+    }
 
 }

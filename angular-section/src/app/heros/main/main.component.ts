@@ -91,28 +91,35 @@ export class MainComponent{
 
     private url = "http://localhost:3000/api/superheroes/";
 
-    async verifyUser(): Promise<void>{
+    async verifyUser(): Promise<void> {
       const idName = `user`;
       const thisurl = this.url + idName;
-      try{
+    
+      try {
         const response = await fetch(thisurl, {
           method: 'GET',
           headers: {
-              'Content-Type':'application/json',
+            'Content-Type': 'application/json',
           },
-          credentials: 'include'
-        }).then(
-          (response: any) =>{
-            this.message = (`Hi${response.user.name}`);
-            Emitters.authEmitter.emit(true);
-          }
-        );
-      } catch(error){
-        this.message = ("you are not logged in");
-        Emitters.authEmitter.emit(false);
-        console.log("You are not logged in");
+          credentials: 'include',
+        });
+    
+        if (response.ok) {
+          const userData = await response.json();
+          this.message = `Hi ${userData.name}`;
+          Emitters.authEmitter.emit(true);
+        } else {
+          this.message = 'You are not logged in';
+          Emitters.authEmitter.emit(false);
+          console.log('You are not logged in');
+          this.router.navigate(['/login']);
+        }
+      } catch (error) {
+        console.error('Error during user verification:', error);
+        // Handle the error, update the UI, etc.
       }
     }
+    
 
     async logout(): Promise<void>{
       const idName = `logout`;

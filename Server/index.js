@@ -117,7 +117,7 @@ routerInfo.get('/user', async(req,res)=>{
     });
    }
    
-    // res.send("user");
+    res.send("user");
 })
 
 routerInfo.post("/logout", (req,res)=>{

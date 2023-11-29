@@ -5,6 +5,7 @@ import { UserService } from '../../user.service';
 
 import { Router } from '@angular/router';
 import { User } from '../../user';
+import { Emitters } from '../../emitters/emitters';
 
 @Component({
   selector: 'login-screen',
@@ -19,6 +20,7 @@ export class HeaderComponent {
   response: {message: string} = {message: ""};
   invalid: boolean = true;
   userActive: boolean = true;
+  message:string;
   
 
   constructor(private router: Router,
@@ -54,4 +56,6 @@ export class HeaderComponent {
 
 
   }
+  
+ 
 }
