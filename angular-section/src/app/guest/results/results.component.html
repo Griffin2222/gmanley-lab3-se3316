@@ -1,0 +1,14 @@
+<div class="results">
+    
+    <ul id="searchResult">
+    
+    <h1>{{hero.name}}</h1>
+    <p>{{hero.race}}</p>
+    <p>{{hero.publisher}}</p>
+    <p>{{hero.id}}</p>
+    <a [routerLink]="['/details', hero.id]">Learn More</a>
+    <p>----</p>
+    <a href="https://duckduckgo.com/?q={{hero.name}}">See more on DuckDuckGo!</a>
+    </ul>
+
+</div>

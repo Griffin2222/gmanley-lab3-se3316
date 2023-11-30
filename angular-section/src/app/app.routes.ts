@@ -4,6 +4,7 @@ import { MainComponent } from './heros/main/main.component';
 import { CreateAccountPageComponent } from './createNewAccount/create-account-page/create-account-page.component';
 import { DetailsComponent } from './heros/details/details.component';
 import { AdminComponent } from './Admin/admin.component';
+import { GuestComponent } from './guest/GuestMain/guest.component';
 
 export const routes: Routes = [
     {path : 'login', component : HeaderComponent},
@@ -11,6 +12,7 @@ export const routes: Routes = [
     {path : 'createNewAccount', component : CreateAccountPageComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'},
     {path : 'details/:id', component: DetailsComponent},
-    {path : 'admin', component: AdminComponent}
+    {path : 'admin', component: AdminComponent},
+    {path : 'guest', component: GuestComponent}
 
 ];

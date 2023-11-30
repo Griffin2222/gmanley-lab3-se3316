@@ -30,6 +30,9 @@ export class HeaderComponent {
   createAccountBtn() {
     this.router.navigate(['/createNewAccount']);
   }
+  viewAsGuest(){
+    this.router.navigate(['/guest'])
+  }
 
   async login(email: string, password: string){
    try{
