@@ -15,6 +15,7 @@ const User = require('./Models/user');
 const routerInfo = express.Router();
 const routerPower = express.Router();
 const port = 3000;
+const DMCA = require('./Models/dmca');
 
 
 
@@ -32,6 +33,33 @@ app.use((req, res, next) => {
     console.log(`${req.method} request for ${req.url}`);
     next();
 });
+
+routerInfo.post("/filedmca", async (req, res) => {
+    try {
+        let id = req.body.id;
+        let dateRequestReceived = req.body.dateRequestReceived;
+        let dateDisputeReceived = req.body.dateDisputeReceived;
+        let dateNoticeSent = req.body.dateNoticeSent;
+        let notes = req.body.notes;
+        let status = req.body.status;
+
+        const dmca = new DMCA({
+            id: id,
+            dateRequestReceived: dateRequestReceived,
+            dateDisputeReceived: dateDisputeReceived,
+            dateNoticeSent: dateNoticeSent,
+            notes: notes,
+            status: status
+        });
+
+        const result = await dmca.save();
+        res.status(201).json({ message: 'DMCA filed successfully', result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 
 routerInfo.post("/register", async (req,res)=>{

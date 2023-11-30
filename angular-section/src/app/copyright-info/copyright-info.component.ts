@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DmcaService } from '../dmca.service';
 
 @Component({
   selector: 'app-copyright-info',
@@ -9,5 +10,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './copyright-info.component.css'
 })
 export class CopyrightInfoComponent {
+  constructor(private dmcaService: DmcaService){}
+
+  async filedmca() {
+    
+      const id= 123;
+      const dateRequestReceived = new Date();
+     const  dateDisputeReceived = new Date();
+     const dateNoticeSent= new Date();
+     const notes= 'Example notes';
+      const status= true;
+    
+
+   const response = await this.dmcaService.fileDmca(id, dateRequestReceived, dateDisputeReceived, dateNoticeSent, notes, status);
+    console.log(response);
+  }
 
 }
