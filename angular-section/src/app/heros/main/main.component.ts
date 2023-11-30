@@ -25,6 +25,7 @@ export class MainComponent{
   authenticated = true;
   heroList: Hero[] = [];
   message: string;
+  userName: string;
   //heroService: HeroService = inject(HeroService);
   constructor(
     private heroService: HeroService,
@@ -55,6 +56,9 @@ export class MainComponent{
         this.searchPowerInput.nativeElement.value,
         this.searchLimitInput.nativeElement.value
       );
+    }
+    resetPword(){
+      this.router.navigate(['/resetPword']);
     }
     
     fetchData(searchName: string, searchRace: string, searchPublisher: string, searchPower: string, searchLimit: string) {
@@ -107,6 +111,7 @@ export class MainComponent{
         if (response.ok) {
           const userData = await response.json();
           this.message = `Hi ${userData.name}`;
+          this.userName = userData.name;
           Emitters.authEmitter.emit(true);
         } else {
           this.message = 'You are not logged in';

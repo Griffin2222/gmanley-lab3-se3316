@@ -154,6 +154,27 @@ export class UserService {
       });
   }
 
+  async deleteUser(email:string):Promise<any>{
+    const idName = `delete/${email}`;
+    const thisurl = this.url + idName;
+
+    try{
+      const response = await fetch(thisurl, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type':'application/json',
+        }
+      }).then(
+        (response: any) =>{
+          console.log("deleted");
+          return response;
+        }
+      );
+    } catch(error){
+      console.log("");
+    }
+  }
+
 }
 
   

@@ -6,6 +6,7 @@ import { DetailsComponent } from './heros/details/details.component';
 import { AdminComponent } from './Admin/admin.component';
 import { GuestComponent } from './guest/GuestMain/guest.component';
 import { CopyrightInfoComponent } from './copyright-info/copyright-info.component';
+import { UpdatepasswordComponent } from './updatepassword/updatepassword.component';
 
 export const routes: Routes = [
     {path : 'login', component : HeaderComponent},
@@ -15,6 +16,7 @@ export const routes: Routes = [
     {path : 'details/:id', component: DetailsComponent},
     {path : 'admin', component: AdminComponent},
     {path : 'guest', component: GuestComponent},
-    {path: 'copyright', component:CopyrightInfoComponent }
+    {path: 'copyright', component:CopyrightInfoComponent },
+    {path : 'resetPword', component: UpdatepasswordComponent}
 
 ];

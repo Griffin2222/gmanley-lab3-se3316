@@ -117,7 +117,7 @@ routerInfo.get('/user', async(req,res)=>{
     });
    }
    
-    res.send("user");
+   // res.send("user");
 })
 
 routerInfo.post("/logout", (req,res)=>{
@@ -338,6 +338,18 @@ routerInfo.route('/lists/:id')
         })
         .catch((err) => console.log(err));
     });
+
+    routerInfo.route('/delete/:email')
+    .delete((req,res) =>{
+        if(!req.params.email) return res.status(400).send('List name blank...');
+        User.find({email: req.params.email}).deleteOne()
+        .then((result) => { 
+            if(result.deletedCount === 0) return res.status(404).send('List not found...');
+            res.send(result);
+        })
+        .catch((err) => console.log(err));
+    });
+    
 
 routerInfo.route('/publishers')
     .get((req, res) => {
