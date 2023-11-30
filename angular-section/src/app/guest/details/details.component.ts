@@ -26,14 +26,15 @@ export class DetailsComponent {
 
   
 
-constructor(){
-  const heroId = parseInt(this.route.snapshot.params['id'], 10);
+constructor(private resultsComponent: ResultsComponent){
+  const heroId = parseInt(this.resultsComponent.id, 10);
    this.heroService.getHeroById(heroId).then((hero) => {
       this.hero = hero;
 
       if(this.hero){
         this.powerService.getPowers(this.hero.name).then((powers: Power[])=>{
           this.powers = powers;
+          console.log(this.powers);
         })
 
       }

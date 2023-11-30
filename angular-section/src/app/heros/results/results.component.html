@@ -1,14 +1,17 @@
-<div class="results">
+<div class="results" id="searchResult">
     
-    <ul id="searchResult">
+    <ul>
     
     <h1>{{hero.name}}</h1>
     <p>{{hero.race}}</p>
     <p>{{hero.publisher}}</p>
-    <p>{{hero.id}}</p>
-    <a [routerLink]="['/details', hero.id]">Learn More</a>
+    <p #heroID>{{hero.id}}</p>
+  
+    <button (click)="expand()">Expand</button>
     <p>----</p>
     <a href="https://duckduckgo.com/?q={{hero.name}}">See more on DuckDuckGo!</a>
     </ul>
-
+    <div *ngIf="show">
+    <app-details></app-details>
+    </div>
 </div>
