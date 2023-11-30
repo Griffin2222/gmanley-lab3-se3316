@@ -7,6 +7,7 @@ import { List } from '../../list';
 import { User } from '../../user';
 import { UserService } from '../../user.service';
 import { Injectable } from '@angular/core';
+import { MainComponent } from '../main/main.component';
 
 @Component({
   selector: 'app-list',
@@ -27,7 +28,7 @@ export class ListComponent {
   showFeedback: boolean = false;
   addinfo:string = "";
 
-  constructor(private listService: ListService, private heroService: HeroService, private userService: UserService){
+  constructor(private listService: ListService, private heroService: HeroService, private userService: UserService, private maincomponent: MainComponent){
     this.populateDropdown();
     this.populateUsers();
   
@@ -36,7 +37,8 @@ export class ListComponent {
   async createList(listN: string, visibility: boolean, additionalInfo: string) {
     try {
       const listName = listN;
-      const owner = "Griffin"
+      const owner = this.maincomponent.userName;
+      console.log(owner);
       const rating: number[] = [5];
       const comment: string[] = ["helo"];
       const idsList = this.heroList.map(hero => hero.id.toString());
@@ -52,7 +54,7 @@ export class ListComponent {
   async saveList(selectedIndex: number, listN: string, visibility: boolean,  additionalInfo:string) {
     try {
       const listName = listN;
-      const owner = "Griffin";
+      const owner = this.maincomponent.userName;
       const rating :number[] = [];
       const comment:string[] = [];
       const idsList = this.heroList.map(hero => hero.id.toString());
