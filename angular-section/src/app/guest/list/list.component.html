@@ -16,7 +16,5 @@
         <option *ngFor="let usersList of usersLists" [value]="usersList.listName">{{usersList.listName}}</option>
     </select>
     <button id="selectUserListBtn" (click)="selectUserList(usersListDropdown.value)">Select List</button>
-    <h1>{{addinfo}}</h1>
-    
-    
+    <h1>{{addinfo}}</h1>   
 </div>

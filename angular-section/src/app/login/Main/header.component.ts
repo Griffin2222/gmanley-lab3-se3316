@@ -31,7 +31,10 @@ export class HeaderComponent {
     this.router.navigate(['/createNewAccount']);
   }
   viewAsGuest(){
-    this.router.navigate(['/guest'])
+    this.router.navigate(['/guest']);
+  }
+  viewCopyright(){
+    this.router.navigate(['/copyright']);
   }
 
   async login(email: string, password: string){

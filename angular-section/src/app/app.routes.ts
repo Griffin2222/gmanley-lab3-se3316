@@ -5,6 +5,7 @@ import { CreateAccountPageComponent } from './createNewAccount/create-account-pa
 import { DetailsComponent } from './heros/details/details.component';
 import { AdminComponent } from './Admin/admin.component';
 import { GuestComponent } from './guest/GuestMain/guest.component';
+import { CopyrightInfoComponent } from './copyright-info/copyright-info.component';
 
 export const routes: Routes = [
     {path : 'login', component : HeaderComponent},
@@ -13,6 +14,7 @@ export const routes: Routes = [
     {path : '', redirectTo:'/login', pathMatch: 'full'},
     {path : 'details/:id', component: DetailsComponent},
     {path : 'admin', component: AdminComponent},
-    {path : 'guest', component: GuestComponent}
+    {path : 'guest', component: GuestComponent},
+    {path: 'copyright', component:CopyrightInfoComponent }
 
 ];
