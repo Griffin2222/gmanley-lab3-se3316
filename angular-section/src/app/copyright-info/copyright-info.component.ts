@@ -12,13 +12,12 @@ import { DmcaService } from '../dmca.service';
 export class CopyrightInfoComponent {
   constructor(private dmcaService: DmcaService){}
 
-  async filedmca() {
+  async filedmca(notes:string) {
     
       const id= 123;
       const dateRequestReceived = new Date();
      const  dateDisputeReceived = new Date();
      const dateNoticeSent= new Date();
-     const notes= 'Example notes';
       const status= true;
     
 
