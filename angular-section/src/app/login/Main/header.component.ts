@@ -56,6 +56,7 @@ export class HeaderComponent {
     }
   } catch(error){
     console.log(error)
+    this.invalid= false;
   }
     // console.log('password', password);
     // console.log('email', email);

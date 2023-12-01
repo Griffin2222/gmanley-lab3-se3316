@@ -16,12 +16,14 @@
         <button (click)="createAccountBtn()">Create New Account</button>
         <button (click)="viewAsGuest()">View as Guest</button>
         <button (click)="viewCopyright()">View Privacy Info</button>
+        <div *ngIf = "!invalid">
+            <p>Please Try Again</p>
+        </div>
+        <div *ngIf = "!userActive">
+            <label>Account inactive, please contact site admin</label>
+        </div>
     </div>
-    <div *ngIf = "!invalid">
-        <p>Please Try Again</p>
-    </div>
-    <div *ngIf = "!userActive">
-        <label>Account inactive, please contact site admin</label>
-    </div>
+    
 </div>
+<p>Welcome to Heros Site, here you can view information about all of your favourite superheroes, create lists and share them with your friends.</p>
 

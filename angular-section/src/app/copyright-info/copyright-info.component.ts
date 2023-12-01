@@ -14,7 +14,8 @@ export class CopyrightInfoComponent {
 
   async filedmca(notes:string) {
     
-      const id= 123;
+    
+      const id= Math.floor(Math.random()*1000) ;
       const dateRequestReceived = new Date();
      const  dateDisputeReceived = new Date();
      const dateNoticeSent= new Date();

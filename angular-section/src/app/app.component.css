@@ -1,0 +1,52 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #001F3F, #003366); /* Gradient background */
+    color: #ffffff; /* White text for better visibility */
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Input and select styles */
+  input, select {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    background-color: #004080; /* Dark blue background */
+    color: #ffffff; /* White text */
+    border: 1px solid #0080ff; /* Light blue border */
+  }
+  
+  /* Button styles */
+  button {
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #0080ff, #004080); /* Blue gradient */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: linear-gradient(135deg, #004080, #0080ff);
+  }
+  
+  /* Select styles */
+  select {
+    padding: 15px;
+    background-color: #004080;
+    color: #ffffff;
+    border: 1px solid #0080ff;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    input, select, button {
+      width: 100%;
+    }
+  }
+  
