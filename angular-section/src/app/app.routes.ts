@@ -7,6 +7,7 @@ import { AdminComponent } from './Admin/admin.component';
 import { GuestComponent } from './guest/GuestMain/guest.component';
 import { CopyrightInfoComponent } from './copyright-info/copyright-info.component';
 import { UpdatepasswordComponent } from './updatepassword/updatepassword.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 export const routes: Routes = [
     {path : 'login', component : HeaderComponent},
@@ -17,6 +18,7 @@ export const routes: Routes = [
     {path : 'admin', component: AdminComponent},
     {path : 'guest', component: GuestComponent},
     {path: 'copyright', component:CopyrightInfoComponent },
-    {path : 'resetPword', component: UpdatepasswordComponent}
+    {path : 'resetPword', component: UpdatepasswordComponent},
+    {path : 'verifyEmail', component:VerifyEmailComponent}
 
 ];

@@ -12,7 +12,7 @@ export class UserService {
   private url = "http://localhost:3000/api/superheroes/";
 
   async registerUser(email:string, name:string, password:string): Promise<any>{
-    const user = {name: name, email: email,  password: password, active:true };
+    const user = {name: name, email: email,  password: password };
     const idName = `register`;
     const thisurl = this.url + idName;
     try {
@@ -47,6 +47,16 @@ export class UserService {
     }catch(error){
       throw(error);
     }
+  }
+
+  async verifyEmail(token:string): Promise<any>{
+ 
+    const user = `/verify/${token}` 
+    const url = `http://localhost:3000/api/superheroes`
+    const bigUrl = url + user
+    const data = await fetch(bigUrl);
+    return (await data.json())??[];
+  
   }
 
   async changeStatus(name:string, status:boolean): Promise<any>{

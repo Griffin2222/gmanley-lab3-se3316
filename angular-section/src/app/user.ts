@@ -3,5 +3,6 @@ export interface User {
     email:string,
     password:string,
     active: boolean,
-    admin:boolean
+    admin:boolean,
+    verificationToken:string,
 }

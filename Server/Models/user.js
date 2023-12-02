@@ -22,6 +22,10 @@ const userSchema = new Schema({
     admin:{
         type: Boolean,
         required:true,
+    },
+    verificationToken:{
+        type:String,
+        require:false,
     }
 });
 

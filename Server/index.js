@@ -12,6 +12,7 @@ const Heros = require('./Models/heros');
 const Powers = require('./Models/powers');
 const ListItems = require('./Models/listItems');
 const User = require('./Models/user');
+const crypto = require('crypto');
 const routerInfo = express.Router();
 const routerPower = express.Router();
 const port = 3000;
@@ -62,6 +63,8 @@ routerInfo.post("/filedmca", async (req, res) => {
 
 
 
+
+
 routerInfo.post("/register", async (req,res)=>{
    let email = req.body.email;
    let password = req.body.password;
@@ -77,12 +80,14 @@ routerInfo.post("/register", async (req,res)=>{
     })
    } else{
 
+    const verificationToken = crypto.randomBytes(32).toString('hex');
    const user = new User({
     name: name,
     email: email,
     password: hashedPassword,
-    active: Boolean(true),
+    active: Boolean(false),
     admin: Boolean(false),
+    verificationToken:verificationToken,
    })
    const result = await user.save();
 
@@ -102,6 +107,34 @@ routerInfo.post("/register", async (req,res)=>{
 //    }) 
     }
 })
+
+
+// Function to send a verification email
+
+
+// Endpoint for handling email verification
+routerInfo.get("/verify/:token", async (req, res) => {
+    const token = req.params.token;
+    const user = await User.findOne({ verificationToken: token });
+
+    if (!user) {
+        return res.status(400).send({
+            "message": "Invalid or expired verification token."
+        });
+    }
+
+    // Update user as verified
+    user.active = true;
+    user.verificationToken = undefined;
+    await user.save();
+
+    res.send({
+        message: "Email verified successfully. You can now login."
+    });
+});
+
+
+
 
 routerInfo.post("/login", async(req,res)=>{
     const user = await User.findOne({email: req.body.email});
