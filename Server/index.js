@@ -437,44 +437,57 @@ routerInfo.route('/userLists/:name')
     .catch((err) => console.log(err));
 });
 
-routerInfo.route('/filter')
-    .get((req, res) => {
-        const { name, race, publisher, power, limit } = req.query;
-        if(!name && !race && !publisher && !power) return res.status(400).json('There must be at least one keyword...');
-        Heros.find({$and: [
-            name ? { name: new RegExp(name, 'i') } : {},
-            race ? { race: new RegExp(race, 'i') } : {},
-            publisher ? { publisher: new RegExp(publisher, 'i') } : {}
-        ]}).select('-_id -createdAt -updatedAt -__v')
+routerInfo.route('/filter').get((req, res) => {
+    const { name, race, publisher, power, limit } = req.query;
+    
+    if (!name && !race && !publisher && !power) {
+        return res.status(400).json('There must be at least one keyword...');
+    }
+
+    const softMatch = (input) => new RegExp(input.replace(/\s+/g, '').split('').join('\\s*'), 'i');
+
+    Heros.find({
+        $and: [
+            name ? { name: softMatch(name) } : {},
+            race ? { race: softMatch(race) } : {},
+            publisher ? { publisher: softMatch(publisher) } : {}
+        ]
+    }).select('-_id -createdAt -updatedAt -__v')
         .then((matchingHeroes) => {
-            if(power) {
+            if (power) {
                 const query = {};
                 query[capitalize(power)] = "True";
+
                 Powers.find(query).select('-_id -createdAt -updatedAt -__v')
-                .then((result) => {
-                    const matchingHeroNames = result.map(hero => hero.hero_names);
-                    matchingHeroes = matchingHeroes.filter(hero => matchingHeroNames.includes(hero.name));
-                    if (matchingHeroes.length === 0) {
-                        return res.status(404).json('No matching data found...');
-                    }
-                    if(limit > 0 && limit < matchingHeroes.length) {
-                        matchingHeroes = matchingHeroes.slice(0, limit);
-                    }
-                    res.send(matchingHeroes);
-                })
-                .catch((err) => console.log(err));
+                    .then((result) => {
+                        const matchingHeroNames = result.map(hero => hero.hero_names);
+                        matchingHeroes = matchingHeroes.filter(hero => matchingHeroNames.includes(hero.name));
+                        if (matchingHeroes.length === 0) {
+                            return res.status(404).json('No matching data found...');
+                        }
+                        if (limit > 0 && limit < matchingHeroes.length) {
+                            matchingHeroes = matchingHeroes.slice(0, limit);
+                        }
+                        res.send(matchingHeroes);
+                    })
+                    .catch((err) => console.log(err));
             } else {
                 if (matchingHeroes.length === 0) {
                     return res.status(404).json('No matching data found...');
                 }
-                if(limit > 0 && limit < matchingHeroes.length) {
+                if (limit > 0 && limit < matchingHeroes.length) {
                     matchingHeroes = matchingHeroes.slice(0, limit);
                 }
                 res.send(matchingHeroes);
             }
         })
         .catch((err) => console.log(err));
-    });
+});
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
 routerInfo.route('/powers/:name')
     .get((req, res) => {
