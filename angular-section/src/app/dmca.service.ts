@@ -7,7 +7,7 @@ import { json } from 'stream/consumers';
   providedIn: 'root'
 })
 export class DmcaService {
-  private apiUrl = 'http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/'; // Replace with your actual API URL
+  private apiUrl = 'http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/'; // Replace with your actual API URL
 
   constructor() {}
 

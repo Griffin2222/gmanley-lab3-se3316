@@ -9,7 +9,7 @@ import { response } from 'express';
 })
 export class UserService {
 
-  private url = "http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/";
+  private url = "http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/";
 
   async registerUser(email:string, name:string, password:string): Promise<any>{
     const user = {name: name, email: email,  password: password };
@@ -52,7 +52,7 @@ export class UserService {
   async verifyEmail(token:string): Promise<any>{
  
     const user = `/verify/${token}` 
-    const url = `http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes`
+    const url = `http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes`
     const bigUrl = url + user
     const data = await fetch(bigUrl);
     return (await data.json())??[];
