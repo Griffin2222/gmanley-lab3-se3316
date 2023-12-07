@@ -6,7 +6,7 @@ import { Power } from './power';
 })
 export class PowerService {
 
-  private getAllURL = 'http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/powers/';
+  private getAllURL = 'http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/powers/';
 
   async getPowers(heroName: string): Promise<Power[]> {
     const queryParams = `${heroName}`;

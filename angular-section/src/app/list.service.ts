@@ -11,7 +11,7 @@ export class ListService {
  
   
 
-  private getAllURL = 'http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/lists';
+  private getAllURL = 'http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/lists';
 
   //${searchName.value}&race=${searchRace.value}&publisher=${searchPublisher.value}&power=${searchPower.value}&limit=${searchLimit.value}
 
@@ -52,7 +52,7 @@ export class ListService {
   async updateRating(listName: string, rating: number[], comment: string[]): Promise<any> {
     const listItem = { rating:rating, comment: comment};
     const idName = `/${listName}`;
-    const url = `http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/listcomments`
+    const url = `http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/listcomments`
     const realURL = url + idName
     try {
       const response = await fetch(realURL, {
@@ -91,14 +91,14 @@ async deleteList(listIndex: number, listName: string): Promise<void> {
 
 async getUserList(userName: string): Promise<List[]>{
   const user = `/userLists/${userName}` 
-  const url = `http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes`
+  const url = `http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes`
   const bigUrl = url + user
   const data = await fetch(bigUrl);
   return (await data.json())??[];
 }
 
 async deleteRating(listName: string, index: number): Promise<any> {
-  const url = `http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/listcomments/${listName}/${index}`;
+  const url = `http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/listcomments/${listName}/${index}`;
   
   try {
     const response = await fetch(url, {
@@ -135,7 +135,7 @@ async deleteRating(listName: string, index: number): Promise<any> {
   }
 
   async getListByName(name: string): Promise<List[]>{
-    const url = `http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/userlistbyname/`;
+    const url = `http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/userlistbyname/`;
     const n = name;
     const thisurl = url+n;
     const data = await fetch(thisurl);

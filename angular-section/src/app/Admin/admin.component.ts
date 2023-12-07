@@ -268,7 +268,7 @@ export class AdminComponent {
     this.heroList.length = 0;
   }
 
-  private url = "http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/";
+  private url = "http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/";
 
     async verifyUser(): Promise<void> {
       const idName = `user`;

@@ -93,7 +93,7 @@ export class MainComponent{
       });
     }
 
-    private url = "http://localhost:3000/api/superheroes/";
+    private url = "http://ec2-3-90-246-226.compute-1.amazonaws.com:3000/api/superheroes/";
 
     async verifyUser(): Promise<void> {
       const idName = `user`;
