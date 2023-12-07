@@ -26,7 +26,7 @@ constructor(private userservice: UserService, private router:Router){}
     await this.userservice.registerUser(email, username, newpassword);
   }
 
-  private url = "http://localhost:3000/api/superheroes/";
+  private url = "http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes/";
   async logout(): Promise<void>{
     const idName = `logout`;
     const thisurl = this.url + idName;
