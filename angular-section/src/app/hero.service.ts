@@ -11,7 +11,7 @@ export class HeroService {
  
   
 
-  private getAllURL = 'http://ec2-54-224-178-7.compute-1.amazonaws.com:3000/api/superheroes';
+  private getAllURL = 'http://localhost:3000/api/superheroes';
 
   //${searchName.value}&race=${searchRace.value}&publisher=${searchPublisher.value}&power=${searchPower.value}&limit=${searchLimit.value}
 
