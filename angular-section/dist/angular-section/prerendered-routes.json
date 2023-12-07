@@ -1,0 +1,12 @@
+{
+  "routes": [
+    "/admin",
+    "/copyright",
+    "/createNewAccount",
+    "/guest",
+    "/heros",
+    "/login",
+    "/resetPword",
+    "/verifyEmail"
+  ]
+}
